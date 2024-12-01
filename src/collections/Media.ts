@@ -8,16 +8,13 @@ import {
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import { anyone } from '../../access/anyone'
-import { authenticated } from '../../access/authenticated'
+import { anyone } from '../access/anyone'
+import { authenticated } from '../access/authenticated'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
-  admin: {
-    group: 'Cloud Storage',
-  },
   slug: 'media',
   access: {
     create: authenticated,
@@ -42,10 +39,9 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    crop: true,
-    displayPreview: true,
-    focalPoint: true,
-    mimeTypes: ['image/*', 'video/*'],
+    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
+    staticDir: path.resolve(dirname, '../../public/media'),
+    adminThumbnail: 'thumbnail',
     imageSizes: [
       {
         name: 'thumbnail',
@@ -73,8 +69,5 @@ export const Media: CollectionConfig = {
         width: 1920,
       },
     ],
-    adminThumbnail: 'thumbnail',
-    // Upload to the public/media directory in Next.js making them publicly accessible even outside of Payload
-    staticDir: path.resolve(dirname, '../../public/media'),
   },
 }

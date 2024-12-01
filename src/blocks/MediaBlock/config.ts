@@ -9,11 +9,6 @@ export const MediaBlock: Block = {
       type: 'upload',
       relationTo: 'media',
       required: true,
-      filterOptions: {
-        mimeType: {
-          contains: ['image', 'video'], // Allow both image and video uploads
-        },
-      },
     },
   ],
 }

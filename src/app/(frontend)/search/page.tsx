@@ -4,10 +4,10 @@ import { CollectionArchive } from '@/components/CollectionArchive'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import React from 'react'
+import { Post } from '@/payload-types'
 import { Search } from '@/search/Component'
 import PageClient from './page.client'
 import { CardPostData } from '@/components/Card'
-import { generateMeta } from '@/utilities/generateMeta'
 
 type Args = {
   searchParams: Promise<{
@@ -79,10 +79,8 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   )
 }
 
-export async function generateMetadata(): Promise<Metadata> {
-  return generateMeta({
-    doc: {
-      slug: 'search',
-    },
-  })
+export function generateMetadata(): Metadata {
+  return {
+    title: `Payload Website Template Search`,
+  }
 }
