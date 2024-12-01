@@ -1,5 +1,5 @@
 {
-  "id": "bfd66232-df39-47b9-85f0-c014d5efcba5",
+  "id": "6f13fca9-a292-4538-90ab-368630a337d0",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -4853,6 +4853,13 @@
           "primaryKey": false,
           "notNull": false
         },
+        "prefix": {
+          "name": "prefix",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'assets'"
+        },
         "updated_at": {
           "name": "updated_at",
           "type": "timestamp(3) with time zone",
@@ -5028,6 +5035,13 @@
           "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": false
+        },
+        "prefix": {
+          "name": "prefix",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false,
+          "default": "'audio-files'"
         },
         "updated_at": {
           "name": "updated_at",

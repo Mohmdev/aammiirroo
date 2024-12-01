@@ -625,6 +625,7 @@ export interface Asset {
   id: number;
   alt?: string | null;
   caption?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -650,6 +651,7 @@ export interface AudioFile {
   key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
   description?: string | null;
   releaseDate?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1098,6 +1100,7 @@ export interface MediaSelect<T extends boolean = true> {
 export interface AssetsSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -1122,6 +1125,7 @@ export interface AudioFilesSelect<T extends boolean = true> {
   key?: T;
   description?: T;
   releaseDate?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
