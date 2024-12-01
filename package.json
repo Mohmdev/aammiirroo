@@ -1,9 +1,15 @@
 {
-  "name": "@payloadcms/template-website",
+  "name": "aammiiroo",
   "version": "1.0.0",
-  "description": "Website template for Payload",
+  "description": "A musician's portfolio built with PayloadCMS and Next.js.",
   "license": "MIT",
   "type": "module",
+  "author": "MohmDev",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MohmDev/aammiiroo"
+  },
   "scripts": {
     "ii": "cross-env NODE_OPTIONS=--no-deprecation pnpm --ignore-workspace install",
     "reinstall": "cross-env NODE_OPTIONS=--no-deprecation rm -rf node_modules && rm pnpm-lock.yaml && pnpm --ignore-workspace install",
