@@ -5,7 +5,7 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
-import { Media } from './collections/Media'
+import { Media } from './collections/Upload/Media'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
@@ -14,6 +14,8 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
+import { Assets } from './collections/Upload/Assets'
+import { AudioFiles } from './collections/Upload/Music'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -22,15 +24,17 @@ export default buildConfig({
   collections: [
     Pages,
     Posts,
-    Media,
     Categories,
     Users,
-    //
+    // Uploads
+    Media,
+    Assets,
+    AudioFiles,
   ],
   globals: [
     Header,
     Footer,
-    //
+    // Settings
   ],
   admin: {
     components: {
