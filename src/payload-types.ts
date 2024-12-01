@@ -49,10 +49,16 @@ export interface Config {
   globals: {
     header: Header;
     footer: Footer;
+    graphics: Graphic;
+    'site-information': SiteInformation;
+    'contact-information': ContactInformation;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
+    graphics: GraphicsSelect<false> | GraphicsSelect<true>;
+    'site-information': SiteInformationSelect<false> | SiteInformationSelect<true>;
+    'contact-information': ContactInformationSelect<false> | ContactInformationSelect<true>;
   };
   locale: null;
   user: User & {
@@ -1410,6 +1416,60 @@ export interface Footer {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "graphics".
+ */
+export interface Graphic {
+  id: number;
+  logoLight?: (number | null) | Asset;
+  logoDark?: (number | null) | Asset;
+  favicon?: (number | null) | Asset;
+  brandImage?: (number | null) | Asset;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-information".
+ */
+export interface SiteInformation {
+  id: number;
+  basics: {
+    siteName: string;
+    siteDescription: string;
+    primaryColor?: string | null;
+    secondaryColor?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-information".
+ */
+export interface ContactInformation {
+  id: number;
+  contactDetails?: {
+    contactName?: string | null;
+    contactEmail?: string | null;
+    contactPhone?: string | null;
+    contactAddress?: string | null;
+  };
+  soundcloud?: string | null;
+  beatport?: string | null;
+  spotify?: string | null;
+  bandcamp?: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  linkedin?: string | null;
+  youtube?: string | null;
+  whatsapp?: string | null;
+  telegram?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1450,6 +1510,64 @@ export interface FooterSelect<T extends boolean = true> {
             };
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "graphics_select".
+ */
+export interface GraphicsSelect<T extends boolean = true> {
+  logoLight?: T;
+  logoDark?: T;
+  favicon?: T;
+  brandImage?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-information_select".
+ */
+export interface SiteInformationSelect<T extends boolean = true> {
+  basics?:
+    | T
+    | {
+        siteName?: T;
+        siteDescription?: T;
+        primaryColor?: T;
+        secondaryColor?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-information_select".
+ */
+export interface ContactInformationSelect<T extends boolean = true> {
+  contactDetails?:
+    | T
+    | {
+        contactName?: T;
+        contactEmail?: T;
+        contactPhone?: T;
+        contactAddress?: T;
+      };
+  soundcloud?: T;
+  beatport?: T;
+  spotify?: T;
+  bandcamp?: T;
+  facebook?: T;
+  twitter?: T;
+  instagram?: T;
+  linkedin?: T;
+  youtube?: T;
+  whatsapp?: T;
+  telegram?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

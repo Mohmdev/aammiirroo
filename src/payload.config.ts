@@ -16,6 +16,9 @@ import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { Assets } from './collections/Upload/Assets'
 import { AudioFiles } from './collections/Upload/Music'
+import { SiteInformation } from './globals/Customize/SiteInformation'
+import { ContactInformation } from './globals/Customize/ContactInformation'
+import { SiteGraphics } from './globals/Customize/SiteGraphics'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -34,6 +37,10 @@ export default buildConfig({
   globals: [
     Header,
     Footer,
+    // Customize
+    SiteGraphics,
+    SiteInformation,
+    ContactInformation,
     // Settings
   ],
   admin: {
