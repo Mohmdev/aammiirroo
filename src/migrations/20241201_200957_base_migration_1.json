@@ -1,5 +1,5 @@
 {
-  "id": "42c0471c-efbe-4399-a631-34f3c10432c7",
+  "id": "91779019-5622-4350-82c4-05712c61ac4b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -4983,8 +4983,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.audio_files": {
-      "name": "audio_files",
+    "public.audio": {
+      "name": "audio",
       "schema": "",
       "columns": {
         "id": {
@@ -5005,6 +5005,19 @@
           "primaryKey": false,
           "notNull": true
         },
+        "key": {
+          "name": "key",
+          "type": "enum_audio_key",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "duration": {
           "name": "duration",
           "type": "varchar",
@@ -5017,31 +5030,11 @@
           "primaryKey": false,
           "notNull": false
         },
-        "key": {
-          "name": "key",
-          "type": "enum_audio_files_key",
-          "typeSchema": "public",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "description": {
-          "name": "description",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
         "release_date": {
           "name": "release_date",
           "type": "timestamp(3) with time zone",
           "primaryKey": false,
           "notNull": false
-        },
-        "prefix": {
-          "name": "prefix",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false,
-          "default": "'audio-files'"
         },
         "updated_at": {
           "name": "updated_at",
@@ -5113,8 +5106,8 @@
         }
       },
       "indexes": {
-        "audio_files_updated_at_idx": {
-          "name": "audio_files_updated_at_idx",
+        "audio_updated_at_idx": {
+          "name": "audio_updated_at_idx",
           "columns": [
             {
               "expression": "updated_at",
@@ -5128,8 +5121,8 @@
           "method": "btree",
           "with": {}
         },
-        "audio_files_created_at_idx": {
-          "name": "audio_files_created_at_idx",
+        "audio_created_at_idx": {
+          "name": "audio_created_at_idx",
           "columns": [
             {
               "expression": "created_at",
@@ -5143,8 +5136,8 @@
           "method": "btree",
           "with": {}
         },
-        "audio_files_filename_idx": {
-          "name": "audio_files_filename_idx",
+        "audio_filename_idx": {
+          "name": "audio_filename_idx",
           "columns": [
             {
               "expression": "filename",
@@ -7587,8 +7580,8 @@
           "primaryKey": false,
           "notNull": false
         },
-        "audio_files_id": {
-          "name": "audio_files_id",
+        "audio_id": {
+          "name": "audio_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false
@@ -7754,11 +7747,11 @@
           "method": "btree",
           "with": {}
         },
-        "payload_locked_documents_rels_audio_files_id_idx": {
-          "name": "payload_locked_documents_rels_audio_files_id_idx",
+        "payload_locked_documents_rels_audio_id_idx": {
+          "name": "payload_locked_documents_rels_audio_id_idx",
           "columns": [
             {
-              "expression": "audio_files_id",
+              "expression": "audio_id",
               "isExpression": false,
               "asc": true,
               "nulls": "last"
@@ -7922,12 +7915,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "payload_locked_documents_rels_audio_files_fk": {
-          "name": "payload_locked_documents_rels_audio_files_fk",
+        "payload_locked_documents_rels_audio_fk": {
+          "name": "payload_locked_documents_rels_audio_fk",
           "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "audio_files",
+          "tableTo": "audio",
           "columnsFrom": [
-            "audio_files_id"
+            "audio_id"
           ],
           "columnsTo": [
             "id"
@@ -8820,6 +8813,175 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.graphics": {
+      "name": "graphics",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "serial",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "logo_light_id": {
+          "name": "logo_light_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "logo_dark_id": {
+          "name": "logo_dark_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "favicon_id": {
+          "name": "favicon_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "brand_image_id": {
+          "name": "brand_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "timestamp(3) with time zone",
+          "primaryKey": false,
+          "notNull": false
+        }
+      },
+      "indexes": {
+        "graphics_logo_light_idx": {
+          "name": "graphics_logo_light_idx",
+          "columns": [
+            {
+              "expression": "logo_light_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "graphics_logo_dark_idx": {
+          "name": "graphics_logo_dark_idx",
+          "columns": [
+            {
+              "expression": "logo_dark_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "graphics_favicon_idx": {
+          "name": "graphics_favicon_idx",
+          "columns": [
+            {
+              "expression": "favicon_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        },
+        "graphics_brand_image_idx": {
+          "name": "graphics_brand_image_idx",
+          "columns": [
+            {
+              "expression": "brand_image_id",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": false,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
+      "foreignKeys": {
+        "graphics_logo_light_id_assets_id_fk": {
+          "name": "graphics_logo_light_id_assets_id_fk",
+          "tableFrom": "graphics",
+          "tableTo": "assets",
+          "columnsFrom": [
+            "logo_light_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "graphics_logo_dark_id_assets_id_fk": {
+          "name": "graphics_logo_dark_id_assets_id_fk",
+          "tableFrom": "graphics",
+          "tableTo": "assets",
+          "columnsFrom": [
+            "logo_dark_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "graphics_favicon_id_assets_id_fk": {
+          "name": "graphics_favicon_id_assets_id_fk",
+          "tableFrom": "graphics",
+          "tableTo": "assets",
+          "columnsFrom": [
+            "favicon_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        },
+        "graphics_brand_image_id_assets_id_fk": {
+          "name": "graphics_brand_image_id_assets_id_fk",
+          "tableFrom": "graphics",
+          "tableTo": "assets",
+          "columnsFrom": [
+            "brand_image_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "set null",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.site_information": {
       "name": "site_information",
       "schema": "",
@@ -8992,175 +9154,6 @@
       },
       "indexes": {},
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
-    "public.graphics": {
-      "name": "graphics",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "serial",
-          "primaryKey": true,
-          "notNull": true
-        },
-        "logo_light_id": {
-          "name": "logo_light_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "logo_dark_id": {
-          "name": "logo_dark_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "favicon_id": {
-          "name": "favicon_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "brand_image_id": {
-          "name": "brand_image_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "timestamp(3) with time zone",
-          "primaryKey": false,
-          "notNull": false
-        }
-      },
-      "indexes": {
-        "graphics_logo_light_idx": {
-          "name": "graphics_logo_light_idx",
-          "columns": [
-            {
-              "expression": "logo_light_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "graphics_logo_dark_idx": {
-          "name": "graphics_logo_dark_idx",
-          "columns": [
-            {
-              "expression": "logo_dark_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "graphics_favicon_idx": {
-          "name": "graphics_favicon_idx",
-          "columns": [
-            {
-              "expression": "favicon_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        },
-        "graphics_brand_image_idx": {
-          "name": "graphics_brand_image_idx",
-          "columns": [
-            {
-              "expression": "brand_image_id",
-              "isExpression": false,
-              "asc": true,
-              "nulls": "last"
-            }
-          ],
-          "isUnique": false,
-          "concurrently": false,
-          "method": "btree",
-          "with": {}
-        }
-      },
-      "foreignKeys": {
-        "graphics_logo_light_id_assets_id_fk": {
-          "name": "graphics_logo_light_id_assets_id_fk",
-          "tableFrom": "graphics",
-          "tableTo": "assets",
-          "columnsFrom": [
-            "logo_light_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "graphics_logo_dark_id_assets_id_fk": {
-          "name": "graphics_logo_dark_id_assets_id_fk",
-          "tableFrom": "graphics",
-          "tableTo": "assets",
-          "columnsFrom": [
-            "logo_dark_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "graphics_favicon_id_assets_id_fk": {
-          "name": "graphics_favicon_id_assets_id_fk",
-          "tableFrom": "graphics",
-          "tableTo": "assets",
-          "columnsFrom": [
-            "favicon_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        },
-        "graphics_brand_image_id_assets_id_fk": {
-          "name": "graphics_brand_image_id_assets_id_fk",
-          "tableFrom": "graphics",
-          "tableTo": "assets",
-          "columnsFrom": [
-            "brand_image_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "set null",
-          "onUpdate": "no action"
-        }
-      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -9367,8 +9360,8 @@
         "published"
       ]
     },
-    "public.enum_audio_files_key": {
-      "name": "enum_audio_files_key",
+    "public.enum_audio_key": {
+      "name": "enum_audio_key",
       "schema": "public",
       "values": [
         "C",

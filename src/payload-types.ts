@@ -17,7 +17,7 @@ export interface Config {
     users: User;
     media: Media;
     assets: Asset;
-    'audio-files': AudioFile;
+    audio: Audio;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -34,7 +34,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     assets: AssetsSelect<false> | AssetsSelect<true>;
-    'audio-files': AudioFilesSelect<false> | AudioFilesSelect<true>;
+    audio: AudioSelect<false> | AudioSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -646,18 +646,17 @@ export interface Asset {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio-files".
+ * via the `definition` "audio".
  */
-export interface AudioFile {
+export interface Audio {
   id: number;
   title: string;
   artist: string;
-  duration?: string | null;
-  bpm?: number | null;
   key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
   description?: string | null;
+  duration?: string | null;
+  bpm?: number | null;
   releaseDate?: string | null;
-  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -770,8 +769,8 @@ export interface PayloadLockedDocument {
         value: number | Asset;
       } | null)
     | ({
-        relationTo: 'audio-files';
-        value: number | AudioFile;
+        relationTo: 'audio';
+        value: number | Audio;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1121,17 +1120,16 @@ export interface AssetsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio-files_select".
+ * via the `definition` "audio_select".
  */
-export interface AudioFilesSelect<T extends boolean = true> {
+export interface AudioSelect<T extends boolean = true> {
   title?: T;
   artist?: T;
-  duration?: T;
-  bpm?: T;
   key?: T;
   description?: T;
+  duration?: T;
+  bpm?: T;
   releaseDate?: T;
-  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;

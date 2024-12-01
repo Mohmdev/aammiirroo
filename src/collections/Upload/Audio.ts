@@ -7,8 +7,8 @@ import { anyone } from '@/access/anyone'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-export const AudioFiles: CollectionConfig = {
-  slug: 'audio-files',
+export const Audio: CollectionConfig = {
+  slug: 'audio',
   admin: {
     group: 'Cloud Storage',
     useAsTitle: 'title',
@@ -33,10 +33,23 @@ export const AudioFiles: CollectionConfig = {
       required: true,
     },
     {
+      name: 'key',
+      type: 'select',
+      options: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
+      admin: {
+        width: '40%',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+    },
+    {
       name: 'duration',
       type: 'text', // TODO: Will be populated via hook
       admin: {
         readOnly: true,
+        width: '40%',
       },
     },
     {
@@ -45,19 +58,16 @@ export const AudioFiles: CollectionConfig = {
       type: 'number',
       min: 0,
       max: 250,
-    },
-    {
-      name: 'key',
-      type: 'select',
-      options: ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'],
-    },
-    {
-      name: 'description',
-      type: 'textarea',
+      admin: {
+        width: '40%',
+      },
     },
     {
       name: 'releaseDate',
       type: 'date',
+      admin: {
+        width: '40%',
+      },
     },
   ],
   upload: {
