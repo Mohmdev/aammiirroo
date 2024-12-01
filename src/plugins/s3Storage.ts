@@ -6,10 +6,10 @@ export const s3StoragePlugin = s3Storage({
       prefix: 'media',
       disableLocalStorage: true,
     },
-    assets: {
-      prefix: 'assets',
-      disableLocalStorage: true,
-    },
+    // assets: {
+    //   prefix: 'assets',
+    //   disableLocalStorage: true,
+    // },
   },
   acl: 'private',
   bucket: process.env.S3_BUCKET as string,
