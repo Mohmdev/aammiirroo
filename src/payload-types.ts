@@ -657,6 +657,7 @@ export interface Audio {
   duration?: string | null;
   bpm?: number | null;
   releaseDate?: string | null;
+  prefix?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1130,6 +1131,7 @@ export interface AudioSelect<T extends boolean = true> {
   duration?: T;
   bpm?: T;
   releaseDate?: T;
+  prefix?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
