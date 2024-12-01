@@ -53,3 +53,29 @@
     }
   }
 }
+
+.nav__wrap {
+  .nav-group {
+    &.Collections {
+      order: 1;
+    }
+    &.Customize {
+      order: 2;
+    }
+    &.Navigation {
+      order: 3;
+    }
+    &.Storage,
+    &.Cloud.Storage {
+      // Handle both cases
+      order: 20;
+    }
+    &.Settings {
+      order: 30;
+    }
+  }
+  // Controls is a direct child with just nav__controls class
+  > .nav__controls {
+    order: 99;
+  }
+}
