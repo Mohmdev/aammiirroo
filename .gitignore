@@ -10,3 +10,5 @@ node_modules
 # Payload default media upload directory
 public/media/*
 !public/media/.gitkeep
+
+.temp

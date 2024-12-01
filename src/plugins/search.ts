@@ -9,5 +9,8 @@ export const searchPluginConfig = searchPlugin({
     fields: ({ defaultFields }) => {
       return [...defaultFields, ...searchFields]
     },
+    admin: {
+      group: 'Settings',
+    },
   },
 })

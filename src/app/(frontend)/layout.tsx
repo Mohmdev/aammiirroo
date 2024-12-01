@@ -1,50 +1,44 @@
-import React from 'react'
+import type { Metadata } from 'next'
 
 import { cn } from 'src/utilities/cn'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
+import React from 'react'
+
+import { AdminBar } from '@/components/AdminBar'
+import { Footer } from '@/Footer/Component'
+import { Header } from '@/Header/Component'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Providers } from '@/providers'
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getServerSideURL } from '@/utilities/getURL'
-import { getCachedGlobal } from '@/utilities/getGlobals'
-
-import { Header } from '@/Header'
-import { Footer } from '@/Footer'
-import { DynamicFavicon } from '@/Settings/components/Favicon'
+import { draftMode } from 'next/headers'
 
 import './globals.css'
-
-import type { Metadata } from 'next'
-import type { Asset, Graphic } from '@/payload-types'
+import { getServerSideURL } from '@/utilities/getURL'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const graphics = (await getCachedGlobal('graphics', 1)()) as Graphic
-  const logoLightUrl = (graphics?.logoLight as Asset)?.url ?? undefined
-  const logoDarkUrl = (graphics?.logoDark as Asset)?.url ?? undefined
-  const faviconUrl = (graphics?.favicon as Asset)?.url ?? undefined
+  const { isEnabled } = await draftMode()
 
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        <DynamicFavicon faviconUrl={faviconUrl} />
+        <link href="/favicon.ico" rel="icon" sizes="32x32" />
+        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
       </head>
       <body>
         <Providers>
+          <AdminBar
+            adminBarProps={{
+              preview: isEnabled,
+            }}
+          />
           <LivePreviewListener />
-          <div
-            className={cn(
-              'min-h-[100vh]', // fallback
-              'grid grid-rows-[auto_1fr_auto]',
-            )}
-            style={{ minHeight: '100dvh' }}
-          >
-            <Header logoUrl={logoLightUrl} />
-            <main>{children}</main>
-            <Footer logoUrl={logoLightUrl} />
-          </div>
+
+          <Header />
+          {children}
+          <Footer />
         </Providers>
       </body>
     </html>

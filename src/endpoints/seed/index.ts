@@ -42,15 +42,33 @@ export const seed = async ({
   payload.logger.info(`— Clearing collections and globals...`)
 
   // clear the database
-  for (const global of globals) {
-    await payload.updateGlobal({
-      slug: global,
-      data: {
-        // @ts-expect-error
-        navItems: [],
-      },
-    })
-  }
+  // for (const global of globals) {
+  //   await payload.updateGlobal({
+  //     slug: global,
+  //     data: {
+  //       navItems: [],
+  //     },
+  //   })
+  // }
+
+  // Clear globals in a single Promise.all
+  await Promise.all([
+    // Header/Footer globals with navItems
+    ...['header', 'footer'].map((slug) =>
+      payload.updateGlobal({
+        slug: slug as 'header' | 'footer',
+        data: { navItems: [] },
+      }),
+    ),
+
+    // Other globals without navItems
+    // ...['site-information', 'contact-information', 'graphics'].map((slug) =>
+    //   payload.updateGlobal({
+    //     slug: slug as 'site-information' | 'contact-information' | 'graphics',
+    //     data: {},
+    //   }),
+    // ),
+  ])
 
   for (const collection of collections) {
     await payload.delete({

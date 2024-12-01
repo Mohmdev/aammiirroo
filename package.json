@@ -69,7 +69,6 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^15",
     "@payloadcms/eslint-config": "^1.1.1",
-    "@payloadcms/graphql": "^3.1.0",
     "@tailwindcss/typography": "^0.5.13",
     "@types/escape-html": "^1.0.2",
     "@types/jsonwebtoken": "^9.0.6",

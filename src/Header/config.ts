@@ -4,11 +4,10 @@ import { link } from '@/fields/link'
 import { revalidateHeader } from './hooks/revalidateHeader'
 
 export const Header: GlobalConfig = {
-  admin: {
-    group: 'Settings',
-  },
   slug: 'header',
-  label: 'Header Navigation',
+  admin: {
+    group: 'Navigation',
+  },
   access: {
     read: () => true,
   },

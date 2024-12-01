@@ -2,34 +2,22 @@ import { getCachedGlobal } from '@/utilities/getGlobals'
 import Link from 'next/link'
 import React from 'react'
 
-import type { Footer, Graphic } from '@/payload-types'
+import type { Footer } from '@/payload-types'
 
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
-import { cn } from '@/utilities/cn'
-import { SiteLogo } from '@/Settings/components/SiteLogo'
+import { Logo } from '@/components/Logo/Logo'
 
-export async function Footer({ logoUrl, className }: { logoUrl?: string; className?: string }) {
+export async function Footer() {
   const footer: Footer = await getCachedGlobal('footer', 1)()
 
   const navItems = footer?.navItems || []
 
-  // const graphics = (await getCachedGlobal('graphics', 2)()) as Graphic
-  // const siteLogoUrl =
-  //   typeof graphics?.siteLogo?.light === 'object'
-  //     ? (graphics?.siteLogo?.light?.url ?? undefined)
-  //     : undefined
-
   return (
-    <footer className={cn('border-t border-border bg-black dark:bg-card text-white', className)}>
+    <footer className="border-t border-border bg-black dark:bg-card text-white">
       <div className="container py-8 gap-8 flex flex-col md:flex-row md:justify-between">
         <Link className="flex items-center" href="/">
-          <SiteLogo
-            logoUrl={logoUrl}
-            loading="lazy"
-            priority="auto"
-            // className="invert dark:invert-0"
-          />
+          <Logo />
         </Link>
 
         <div className="flex flex-col-reverse items-start md:flex-row gap-4 md:items-center">
