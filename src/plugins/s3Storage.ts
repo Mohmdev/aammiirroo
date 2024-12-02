@@ -10,6 +10,10 @@ export const s3StoragePlugin = s3Storage({
       prefix: 'assets',
       disableLocalStorage: true,
     },
+    audio: {
+      prefix: 'audio',
+      disableLocalStorage: true,
+    },
   },
   acl: 'private',
   bucket: process.env.S3_BUCKET as string,

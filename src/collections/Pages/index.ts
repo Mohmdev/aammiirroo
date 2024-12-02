@@ -68,12 +68,10 @@ export const Pages: CollectionConfig<'pages'> = {
     {
       type: 'tabs',
       tabs: [
-        // Hero tab
         {
           fields: [hero],
           label: 'Hero',
         },
-        // Content tab
         {
           fields: [
             {
@@ -85,7 +83,6 @@ export const Pages: CollectionConfig<'pages'> = {
           ],
           label: 'Content',
         },
-        // SEO tab
         {
           name: 'meta',
           label: 'SEO',

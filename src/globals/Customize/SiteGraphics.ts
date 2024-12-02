@@ -4,7 +4,7 @@ import { revalidateGraphics } from './hooks/revalidateGraphics'
 export const SiteGraphics: GlobalConfig = {
   slug: 'graphics',
   admin: {
-    group: 'Settings',
+    group: 'Customize',
     description:
       "Here, you can upload your own brand's graphics and personalize the look and feel of your website.",
   },

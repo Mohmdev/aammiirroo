@@ -26,6 +26,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__posts_v_version_status" AS ENUM('draft', 'published');
+  CREATE TYPE "public"."enum_audio_key" AS ENUM('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
   CREATE TYPE "public"."enum_header_nav_items_link_type" AS ENUM('reference', 'custom');
@@ -440,6 +441,28 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"focal_y" numeric
   );
   
+  CREATE TABLE IF NOT EXISTS "audio" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar NOT NULL,
+  	"artist" varchar NOT NULL,
+  	"key" "enum_audio_key",
+  	"description" varchar,
+  	"duration" varchar,
+  	"bpm" numeric,
+  	"release_date" timestamp(3) with time zone,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"url" varchar,
+  	"thumbnail_u_r_l" varchar,
+  	"filename" varchar,
+  	"mime_type" varchar,
+  	"filesize" numeric,
+  	"width" numeric,
+  	"height" numeric,
+  	"focal_x" numeric,
+  	"focal_y" numeric
+  );
+  
   CREATE TABLE IF NOT EXISTS "redirects" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"from" varchar NOT NULL,
@@ -661,6 +684,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"users_id" integer,
   	"media_id" integer,
   	"assets_id" integer,
+  	"audio_id" integer,
   	"redirects_id" integer,
   	"forms_id" integer,
   	"form_submissions_id" integer,
@@ -689,24 +713,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"batch" numeric,
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
-  );
-  
-  CREATE TABLE IF NOT EXISTS "site_info" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"site_name" varchar,
-  	"site_description" varchar,
-  	"updated_at" timestamp(3) with time zone,
-  	"created_at" timestamp(3) with time zone
-  );
-  
-  CREATE TABLE IF NOT EXISTS "graphics" (
-  	"id" serial PRIMARY KEY NOT NULL,
-  	"logo_light_id" integer,
-  	"logo_dark_id" integer,
-  	"favicon_id" integer,
-  	"brand_image_id" integer,
-  	"updated_at" timestamp(3) with time zone,
-  	"created_at" timestamp(3) with time zone
   );
   
   CREATE TABLE IF NOT EXISTS "header_nav_items" (
@@ -757,19 +763,43 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"pages_id" integer
   );
   
+  CREATE TABLE IF NOT EXISTS "graphics" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"logo_light_id" integer,
+  	"logo_dark_id" integer,
+  	"favicon_id" integer,
+  	"brand_image_id" integer,
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
+  CREATE TABLE IF NOT EXISTS "site_information" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"basics_site_name" varchar NOT NULL,
+  	"basics_site_description" varchar NOT NULL,
+  	"basics_primary_color" varchar DEFAULT '#000000',
+  	"basics_secondary_color" varchar DEFAULT '#FFFFFF',
+  	"updated_at" timestamp(3) with time zone,
+  	"created_at" timestamp(3) with time zone
+  );
+  
   CREATE TABLE IF NOT EXISTS "contact_information" (
   	"id" serial PRIMARY KEY NOT NULL,
-  	"contact_name" varchar,
-  	"contact_email" varchar,
-  	"contact_phone" varchar,
-  	"contact_address" varchar,
-  	"social_media_facebook" varchar,
-  	"social_media_twitter" varchar,
-  	"social_media_instagram" varchar,
-  	"social_media_linkedin" varchar,
-  	"social_media_youtube" varchar,
-  	"social_media_whatsapp" varchar,
-  	"social_media_telegram" varchar,
+  	"contact_details_contact_name" varchar,
+  	"contact_details_contact_email" varchar,
+  	"contact_details_contact_phone" varchar,
+  	"contact_details_contact_address" varchar,
+  	"soundcloud" varchar,
+  	"beatport" varchar,
+  	"spotify" varchar,
+  	"bandcamp" varchar,
+  	"facebook" varchar,
+  	"twitter" varchar,
+  	"instagram" varchar,
+  	"linkedin" varchar,
+  	"youtube" varchar,
+  	"whatsapp" varchar,
+  	"telegram" varchar,
   	"updated_at" timestamp(3) with time zone,
   	"created_at" timestamp(3) with time zone
   );
@@ -1231,6 +1261,12 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_audio_fk" FOREIGN KEY ("audio_id") REFERENCES "public"."audio"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_redirects_fk" FOREIGN KEY ("redirects_id") REFERENCES "public"."redirects"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1267,30 +1303,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_logo_light_id_assets_id_fk" FOREIGN KEY ("logo_light_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_logo_dark_id_assets_id_fk" FOREIGN KEY ("logo_dark_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_favicon_id_assets_id_fk" FOREIGN KEY ("favicon_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
-   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_brand_image_id_assets_id_fk" FOREIGN KEY ("brand_image_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
-  EXCEPTION
-   WHEN duplicate_object THEN null;
-  END $$;
-  
-  DO $$ BEGIN
    ALTER TABLE "header_nav_items" ADD CONSTRAINT "header_nav_items_parent_id_fk" FOREIGN KEY ("_parent_id") REFERENCES "public"."header"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1322,6 +1334,30 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "footer_rels" ADD CONSTRAINT "footer_rels_pages_fk" FOREIGN KEY ("pages_id") REFERENCES "public"."pages"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_logo_light_id_assets_id_fk" FOREIGN KEY ("logo_light_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_logo_dark_id_assets_id_fk" FOREIGN KEY ("logo_dark_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_favicon_id_assets_id_fk" FOREIGN KEY ("favicon_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "graphics" ADD CONSTRAINT "graphics_brand_image_id_assets_id_fk" FOREIGN KEY ("brand_image_id") REFERENCES "public"."assets"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1453,6 +1489,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "assets_updated_at_idx" ON "assets" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "assets_created_at_idx" ON "assets" USING btree ("created_at");
   CREATE UNIQUE INDEX IF NOT EXISTS "assets_filename_idx" ON "assets" USING btree ("filename");
+  CREATE INDEX IF NOT EXISTS "audio_updated_at_idx" ON "audio" USING btree ("updated_at");
+  CREATE INDEX IF NOT EXISTS "audio_created_at_idx" ON "audio" USING btree ("created_at");
+  CREATE UNIQUE INDEX IF NOT EXISTS "audio_filename_idx" ON "audio" USING btree ("filename");
   CREATE INDEX IF NOT EXISTS "redirects_from_idx" ON "redirects" USING btree ("from");
   CREATE INDEX IF NOT EXISTS "redirects_updated_at_idx" ON "redirects" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "redirects_created_at_idx" ON "redirects" USING btree ("created_at");
@@ -1521,6 +1560,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_users_id_idx" ON "payload_locked_documents_rels" USING btree ("users_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_media_id_idx" ON "payload_locked_documents_rels" USING btree ("media_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_assets_id_idx" ON "payload_locked_documents_rels" USING btree ("assets_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_audio_id_idx" ON "payload_locked_documents_rels" USING btree ("audio_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_redirects_id_idx" ON "payload_locked_documents_rels" USING btree ("redirects_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_forms_id_idx" ON "payload_locked_documents_rels" USING btree ("forms_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_form_submissions_id_idx" ON "payload_locked_documents_rels" USING btree ("form_submissions_id");
@@ -1534,10 +1574,6 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "payload_preferences_rels_users_id_idx" ON "payload_preferences_rels" USING btree ("users_id");
   CREATE INDEX IF NOT EXISTS "payload_migrations_updated_at_idx" ON "payload_migrations" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "payload_migrations_created_at_idx" ON "payload_migrations" USING btree ("created_at");
-  CREATE INDEX IF NOT EXISTS "graphics_logo_light_idx" ON "graphics" USING btree ("logo_light_id");
-  CREATE INDEX IF NOT EXISTS "graphics_logo_dark_idx" ON "graphics" USING btree ("logo_dark_id");
-  CREATE INDEX IF NOT EXISTS "graphics_favicon_idx" ON "graphics" USING btree ("favicon_id");
-  CREATE INDEX IF NOT EXISTS "graphics_brand_image_idx" ON "graphics" USING btree ("brand_image_id");
   CREATE INDEX IF NOT EXISTS "header_nav_items_order_idx" ON "header_nav_items" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "header_nav_items_parent_id_idx" ON "header_nav_items" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "header_rels_order_idx" ON "header_rels" USING btree ("order");
@@ -1549,7 +1585,11 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "footer_rels_order_idx" ON "footer_rels" USING btree ("order");
   CREATE INDEX IF NOT EXISTS "footer_rels_parent_idx" ON "footer_rels" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "footer_rels_path_idx" ON "footer_rels" USING btree ("path");
-  CREATE INDEX IF NOT EXISTS "footer_rels_pages_id_idx" ON "footer_rels" USING btree ("pages_id");`)
+  CREATE INDEX IF NOT EXISTS "footer_rels_pages_id_idx" ON "footer_rels" USING btree ("pages_id");
+  CREATE INDEX IF NOT EXISTS "graphics_logo_light_idx" ON "graphics" USING btree ("logo_light_id");
+  CREATE INDEX IF NOT EXISTS "graphics_logo_dark_idx" ON "graphics" USING btree ("logo_dark_id");
+  CREATE INDEX IF NOT EXISTS "graphics_favicon_idx" ON "graphics" USING btree ("favicon_id");
+  CREATE INDEX IF NOT EXISTS "graphics_brand_image_idx" ON "graphics" USING btree ("brand_image_id");`)
 }
 
 export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
@@ -1585,6 +1625,7 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TABLE "users" CASCADE;
   DROP TABLE "media" CASCADE;
   DROP TABLE "assets" CASCADE;
+  DROP TABLE "audio" CASCADE;
   DROP TABLE "redirects" CASCADE;
   DROP TABLE "redirects_rels" CASCADE;
   DROP TABLE "forms_blocks_checkbox" CASCADE;
@@ -1609,14 +1650,14 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TABLE "payload_preferences" CASCADE;
   DROP TABLE "payload_preferences_rels" CASCADE;
   DROP TABLE "payload_migrations" CASCADE;
-  DROP TABLE "site_info" CASCADE;
-  DROP TABLE "graphics" CASCADE;
   DROP TABLE "header_nav_items" CASCADE;
   DROP TABLE "header" CASCADE;
   DROP TABLE "header_rels" CASCADE;
   DROP TABLE "footer_nav_items" CASCADE;
   DROP TABLE "footer" CASCADE;
   DROP TABLE "footer_rels" CASCADE;
+  DROP TABLE "graphics" CASCADE;
+  DROP TABLE "site_information" CASCADE;
   DROP TABLE "contact_information" CASCADE;
   DROP TYPE "public"."enum_pages_hero_type";
   DROP TYPE "public"."enum_pages_hero_links_link_type";
@@ -1642,6 +1683,7 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TYPE "public"."enum__pages_v_version_status";
   DROP TYPE "public"."enum_posts_status";
   DROP TYPE "public"."enum__posts_v_version_status";
+  DROP TYPE "public"."enum_audio_key";
   DROP TYPE "public"."enum_redirects_to_type";
   DROP TYPE "public"."enum_forms_confirmation_type";
   DROP TYPE "public"."enum_header_nav_items_link_type";

@@ -25,5 +25,13 @@ export const formBuilderPluginConfig = formBuilderPlugin({
         return field
       })
     },
+    admin: {
+      group: 'Settings',
+    },
+  },
+  formSubmissionOverrides: {
+    admin: {
+      group: 'Settings',
+    },
   },
 })
