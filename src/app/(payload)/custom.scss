@@ -1,3 +1,48 @@
+:root {
+  /* Variables */
+  --theme-bg: var(--theme-elevation-0);
+  // --theme-input-bg: var(--theme-elevation-0);
+  --theme-text: var(--theme-elevation-800);
+  --theme-overlay: rgba(5, 5, 5, 0.5);
+  --font-body: 'Segoe UI', Tahoma, Geneva, sans-serif;
+  // --font-mono: monospace;
+  // --font-serif: 'Merriweather', serif;
+  // --style-radius-s: 4px;
+  // --style-radius-m: 8px;
+  // --style-radius-l: 16px;
+  --nav-width: 224px;
+}
+.hamburger {
+  background-color: var(--theme-elevation-100);
+  border: 1px solid var(--theme-elevation-150);
+}
+/* Nav */
+// .nav {
+//   background-color: var(--theme-elevation-50);
+// }
+/* Dashboard Card */
+.card {
+  background-color: var(--theme-elevation-100);
+  border: 1px solid var(--theme-elevation-150);
+  border-radius: 6px;
+}
+/* Primary Button */
+// .btn--style-primary {
+//   background-color: var(--theme-elevation-900);
+// }
+/* Collapsible Content */
+// .collapsible__content {
+//   background-color: var(--theme-elevation-0);
+// }
+/* Collapsible Toggle */
+// .collapsible--style-default > .collapsible__toggle-wrap .collapsible__toggle {
+//   background-color: var(--theme-elevation-50);
+// }
+/* Table Row Odd */
+.table tbody tr:nth-child(odd) {
+  background-color: var(--theme-elevation-50);
+}
+
 // All nav-groups
 .nav-group {
   .nav-group__toggle {
@@ -74,8 +119,82 @@
       order: 30;
     }
   }
-  // Controls is a direct child with just nav__controls class
+  // controls is a direct child with just nav__controls class
   > .nav__controls {
     order: 99;
   }
+}
+
+// Dashboard home groups
+.dashboard__wrap {
+  .dashboard__group {
+    // Collections
+    &:nth-of-type(1) {
+      order: 1;
+
+      .dashboard__label {
+        display: none;
+      }
+    }
+
+    // Storage
+    &:nth-of-type(2) {
+      order: 20;
+    }
+
+    // Settings
+    &:nth-of-type(3) {
+      order: 30;
+    }
+
+    // Navigation
+    &:nth-of-type(4) {
+      order: 3;
+    }
+
+    // Customize
+    &:nth-of-type(5) {
+      order: 2;
+    }
+  }
+}
+
+// Dashboard home cleanup
+.template-default__wrap {
+  --spacing-view: var(--gutter-h);
+  --dashboard-gap: 50px;
+
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  .dashboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    flex: 1;
+
+    .dashboard__wrap {
+      padding-block: var(--spacing-view); // 16px
+      gap: var(--dashboard-gap);
+
+      @media (max-width: 768px) {
+        width: 100%;
+        padding-block: 24px;
+      }
+    }
+  }
+}
+
+// Typography
+.dashboard__wrap {
+  .dashboard__group {
+    .dashboard__label {
+      font-weight: 300;
+    }
+  }
+}
+
+.card__title {
+  font-weight: 400;
 }
