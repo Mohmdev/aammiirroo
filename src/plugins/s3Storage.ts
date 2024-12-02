@@ -10,8 +10,8 @@ export const s3StoragePlugin = s3Storage({
       prefix: 'assets',
       disableLocalStorage: true,
     },
-    'audio-files': {
-      prefix: 'audio-files',
+    audio: {
+      prefix: 'audio',
       disableLocalStorage: true,
     },
   },

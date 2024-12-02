@@ -15,7 +15,7 @@ import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
 import { Assets } from './collections/Upload/Assets'
-import { AudioFiles } from './collections/Upload/Music'
+import { Audio } from './collections/Upload/Audio'
 import { SiteInformation } from './globals/Customize/SiteInformation'
 import { ContactInformation } from './globals/Customize/ContactInformation'
 import { SiteGraphics } from './globals/Customize/SiteGraphics'
@@ -32,9 +32,10 @@ export default buildConfig({
     // Uploads
     Media,
     Assets,
-    AudioFiles,
+    Audio,
   ],
   globals: [
+    // Navigation
     Header,
     Footer,
     // Customize
