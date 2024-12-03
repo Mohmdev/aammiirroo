@@ -19,6 +19,9 @@ import { Audio } from './collections/Upload/Audio'
 import { SiteInformation } from './globals/Customize/SiteInformation'
 import { ContactInformation } from './globals/Customize/ContactInformation'
 import { SiteGraphics } from './globals/Customize/SiteGraphics'
+import { Radio } from './collections/Radio/Radio'
+import { Artists } from './collections/Radio/Artists'
+import Genres from './collections/Radio/Genres'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,6 +32,10 @@ export default buildConfig({
     Posts,
     Categories,
     Users,
+    // Radio
+    Radio,
+    Artists,
+    Genres,
     // Uploads
     Media,
     Assets,
@@ -47,7 +54,7 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      // beforeDashboard: ['@/components/BeforeDashboard'],
+      beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),

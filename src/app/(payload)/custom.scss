@@ -104,11 +104,14 @@
     &.Collections {
       order: 1;
     }
-    &.Customize {
+    &.Radio {
       order: 2;
     }
-    &.Navigation {
+    &.Customize {
       order: 3;
+    }
+    &.Navigation {
+      order: 4;
     }
     &.Storage,
     &.Cloud.Storage {
@@ -126,38 +129,43 @@
 }
 
 // Dashboard home groups
-.dashboard__wrap {
-  .dashboard__group {
-    // Collections
-    &:nth-of-type(1) {
-      order: 1;
+// .dashboard__wrap {
+//   .dashboard__group {
+//     // Collections
+//     &:nth-of-type(1) {
+//       order: 1;
 
-      .dashboard__label {
-        display: none;
-      }
-    }
+//       .dashboard__label {
+//         display: none;
+//       }
+//     }
 
-    // Storage
-    &:nth-of-type(2) {
-      order: 20;
-    }
+//     // Radio
+//     &:nth-of-type(2) {
+//       order: 2;
+//     }
 
-    // Settings
-    &:nth-of-type(3) {
-      order: 30;
-    }
+//     // Uploads
+//     &:nth-of-type(3) {
+//       order: 20;
+//     }
 
-    // Navigation
-    &:nth-of-type(4) {
-      order: 3;
-    }
+//     // Settings
+//     &:nth-of-type(4) {
+//       order: 30;
+//     }
 
-    // Customize
-    &:nth-of-type(5) {
-      order: 2;
-    }
-  }
-}
+//     // Navigation
+//     &:nth-of-type(5) {
+//       order: 3;
+//     }
+
+//     // Customize
+//     &:nth-of-type(6) {
+//       order: 2;
+//     }
+//   }
+// }
 
 // Dashboard home cleanup
 .template-default__wrap {
@@ -183,6 +191,13 @@
         padding-block: 24px;
       }
     }
+  }
+}
+
+.doc-header {
+  @media (max-width: 1024px) {
+    padding-left: var(--gutter-h);
+    padding-right: var(--gutter-h);
   }
 }
 

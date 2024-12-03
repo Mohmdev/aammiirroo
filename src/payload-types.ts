@@ -15,6 +15,9 @@ export interface Config {
     posts: Post;
     categories: Category;
     users: User;
+    radio: Radio;
+    artists: Artist;
+    genres: Genre;
     media: Media;
     assets: Asset;
     audio: Audio;
@@ -26,12 +29,22 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    artists: {
+      Tracks: 'radio';
+    };
+    genres: {
+      Tracks: 'radio';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    radio: RadioSelect<false> | RadioSelect<true>;
+    artists: ArtistsSelect<false> | ArtistsSelect<true>;
+    genres: GenresSelect<false> | GenresSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     assets: AssetsSelect<false> | AssetsSelect<true>;
     audio: AudioSelect<false> | AudioSelect<true>;
@@ -625,12 +638,89 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "assets".
+ * via the `definition` "radio".
  */
-export interface Asset {
+export interface Radio {
   id: number;
-  alt?: string | null;
-  caption?: string | null;
+  title: string;
+  image?: (number | null) | Media;
+  type: 'track' | 'set';
+  artist?: (number | Artist)[] | null;
+  genres?: (number | Genre)[] | null;
+  generalDetails?: {
+    recordLabel?: string | null;
+    releaseDate?: string | null;
+    description?: string | null;
+  };
+  properties?: {
+    bpm?: number | null;
+    key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
+    duration?: number | null;
+  };
+  sourceType: 'internal' | 'soundcloud' | 'youtube' | 'spotify' | 'beatport' | 'bandcamp';
+  internalUpload?: (number | null) | Audio;
+  trackLink?: string | null;
+  embedTrack?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists".
+ */
+export interface Artist {
+  id: number;
+  name: string;
+  photo?: (number | null) | Media;
+  Tracks?: {
+    docs?: (number | Radio)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  bio?: string | null;
+  platforms?: {
+    SoundCloud?: string | null;
+    Beatport?: string | null;
+    Spotify?: string | null;
+    Bandcamp?: string | null;
+    YouTube?: string | null;
+  };
+  website?: string | null;
+  instagram?: string | null;
+  twitter?: string | null;
+  facebook?: string | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
+export interface Genre {
+  id: number;
+  title: string;
+  Tracks?: {
+    docs?: (number | Radio)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  slug?: string | null;
+  slugLock?: boolean | null;
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio".
+ */
+export interface Audio {
+  id: number;
+  title: string;
+  artist: string;
+  duration?: string | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -646,17 +736,12 @@ export interface Asset {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio".
+ * via the `definition` "assets".
  */
-export interface Audio {
+export interface Asset {
   id: number;
-  title: string;
-  artist: string;
-  key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
-  description?: string | null;
-  duration?: string | null;
-  bpm?: number | null;
-  releaseDate?: string | null;
+  alt?: string | null;
+  caption?: string | null;
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -760,6 +845,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'radio';
+        value: number | Radio;
+      } | null)
+    | ({
+        relationTo: 'artists';
+        value: number | Artist;
+      } | null)
+    | ({
+        relationTo: 'genres';
+        value: number | Genre;
       } | null)
     | ({
         relationTo: 'media';
@@ -1017,6 +1114,79 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "radio_select".
+ */
+export interface RadioSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  type?: T;
+  artist?: T;
+  genres?: T;
+  generalDetails?:
+    | T
+    | {
+        recordLabel?: T;
+        releaseDate?: T;
+        description?: T;
+      };
+  properties?:
+    | T
+    | {
+        bpm?: T;
+        key?: T;
+        duration?: T;
+      };
+  sourceType?: T;
+  internalUpload?: T;
+  trackLink?: T;
+  embedTrack?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists_select".
+ */
+export interface ArtistsSelect<T extends boolean = true> {
+  name?: T;
+  photo?: T;
+  Tracks?: T;
+  bio?: T;
+  platforms?:
+    | T
+    | {
+        SoundCloud?: T;
+        Beatport?: T;
+        Spotify?: T;
+        Bandcamp?: T;
+        YouTube?: T;
+      };
+  website?: T;
+  instagram?: T;
+  twitter?: T;
+  facebook?: T;
+  slug?: T;
+  slugLock?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres_select".
+ */
+export interface GenresSelect<T extends boolean = true> {
+  title?: T;
+  Tracks?: T;
+  slug?: T;
+  slugLock?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "media_select".
  */
 export interface MediaSelect<T extends boolean = true> {
@@ -1126,11 +1296,7 @@ export interface AssetsSelect<T extends boolean = true> {
 export interface AudioSelect<T extends boolean = true> {
   title?: T;
   artist?: T;
-  key?: T;
-  description?: T;
   duration?: T;
-  bpm?: T;
-  releaseDate?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;

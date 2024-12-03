@@ -26,7 +26,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TYPE "public"."enum__pages_v_version_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum_posts_status" AS ENUM('draft', 'published');
   CREATE TYPE "public"."enum__posts_v_version_status" AS ENUM('draft', 'published');
-  CREATE TYPE "public"."enum_audio_key" AS ENUM('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B');
+  CREATE TYPE "public"."enum_radio_type" AS ENUM('track', 'set');
+  CREATE TYPE "public"."enum_radio_properties_key" AS ENUM('C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B');
+  CREATE TYPE "public"."enum_radio_source_type" AS ENUM('internal', 'soundcloud', 'youtube', 'spotify', 'beatport', 'bandcamp');
   CREATE TYPE "public"."enum_redirects_to_type" AS ENUM('reference', 'custom');
   CREATE TYPE "public"."enum_forms_confirmation_type" AS ENUM('message', 'redirect');
   CREATE TYPE "public"."enum_header_nav_items_link_type" AS ENUM('reference', 'custom');
@@ -369,6 +371,66 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"lock_until" timestamp(3) with time zone
   );
   
+  CREATE TABLE IF NOT EXISTS "radio" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar NOT NULL,
+  	"image_id" integer,
+  	"type" "enum_radio_type" NOT NULL,
+  	"general_details_record_label" varchar,
+  	"general_details_release_date" timestamp(3) with time zone,
+  	"general_details_description" varchar,
+  	"properties_bpm" numeric,
+  	"properties_key" "enum_radio_properties_key",
+  	"properties_duration" numeric,
+  	"source_type" "enum_radio_source_type" NOT NULL,
+  	"internal_upload_id" integer,
+  	"track_link" varchar,
+  	"embed_track" varchar,
+  	"slug" varchar,
+  	"slug_lock" boolean DEFAULT true,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE IF NOT EXISTS "radio_rels" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"order" integer,
+  	"parent_id" integer NOT NULL,
+  	"path" varchar NOT NULL,
+  	"artists_id" integer,
+  	"genres_id" integer
+  );
+  
+  CREATE TABLE IF NOT EXISTS "artists" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"name" varchar NOT NULL,
+  	"photo_id" integer,
+  	"bio" varchar,
+  	"platforms_sound_cloud" varchar,
+  	"platforms_beatport" varchar,
+  	"platforms_spotify" varchar,
+  	"platforms_bandcamp" varchar,
+  	"platforms_you_tube" varchar,
+  	"website" varchar,
+  	"instagram" varchar,
+  	"twitter" varchar,
+  	"facebook" varchar,
+  	"slug" varchar,
+  	"slug_lock" boolean DEFAULT true,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
+  CREATE TABLE IF NOT EXISTS "genres" (
+  	"id" serial PRIMARY KEY NOT NULL,
+  	"title" varchar NOT NULL,
+  	"slug" varchar,
+  	"slug_lock" boolean DEFAULT true,
+  	"description" varchar,
+  	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
+  	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL
+  );
+  
   CREATE TABLE IF NOT EXISTS "media" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"alt" varchar,
@@ -445,11 +507,8 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar NOT NULL,
   	"artist" varchar NOT NULL,
-  	"key" "enum_audio_key",
-  	"description" varchar,
   	"duration" varchar,
-  	"bpm" numeric,
-  	"release_date" timestamp(3) with time zone,
+  	"prefix" varchar DEFAULT 'audio',
   	"updated_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"created_at" timestamp(3) with time zone DEFAULT now() NOT NULL,
   	"url" varchar,
@@ -682,6 +741,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"posts_id" integer,
   	"categories_id" integer,
   	"users_id" integer,
+  	"radio_id" integer,
+  	"artists_id" integer,
+  	"genres_id" integer,
   	"media_id" integer,
   	"assets_id" integer,
   	"audio_id" integer,
@@ -1099,6 +1161,42 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
+   ALTER TABLE "radio" ADD CONSTRAINT "radio_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "radio" ADD CONSTRAINT "radio_internal_upload_id_audio_id_fk" FOREIGN KEY ("internal_upload_id") REFERENCES "public"."audio"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "radio_rels" ADD CONSTRAINT "radio_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."radio"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "radio_rels" ADD CONSTRAINT "radio_rels_artists_fk" FOREIGN KEY ("artists_id") REFERENCES "public"."artists"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "radio_rels" ADD CONSTRAINT "radio_rels_genres_fk" FOREIGN KEY ("genres_id") REFERENCES "public"."genres"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "artists" ADD CONSTRAINT "artists_photo_id_media_id_fk" FOREIGN KEY ("photo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
    ALTER TABLE "redirects_rels" ADD CONSTRAINT "redirects_rels_parent_fk" FOREIGN KEY ("parent_id") REFERENCES "public"."redirects"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
@@ -1244,6 +1342,24 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   
   DO $$ BEGIN
    ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_users_fk" FOREIGN KEY ("users_id") REFERENCES "public"."users"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_radio_fk" FOREIGN KEY ("radio_id") REFERENCES "public"."radio"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_artists_fk" FOREIGN KEY ("artists_id") REFERENCES "public"."artists"("id") ON DELETE cascade ON UPDATE no action;
+  EXCEPTION
+   WHEN duplicate_object THEN null;
+  END $$;
+  
+  DO $$ BEGIN
+   ALTER TABLE "payload_locked_documents_rels" ADD CONSTRAINT "payload_locked_documents_rels_genres_fk" FOREIGN KEY ("genres_id") REFERENCES "public"."genres"("id") ON DELETE cascade ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1477,6 +1593,26 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "users_updated_at_idx" ON "users" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "users_created_at_idx" ON "users" USING btree ("created_at");
   CREATE UNIQUE INDEX IF NOT EXISTS "users_email_idx" ON "users" USING btree ("email");
+  CREATE UNIQUE INDEX IF NOT EXISTS "radio_title_idx" ON "radio" USING btree ("title");
+  CREATE INDEX IF NOT EXISTS "radio_image_idx" ON "radio" USING btree ("image_id");
+  CREATE INDEX IF NOT EXISTS "radio_internal_upload_idx" ON "radio" USING btree ("internal_upload_id");
+  CREATE INDEX IF NOT EXISTS "radio_slug_idx" ON "radio" USING btree ("slug");
+  CREATE INDEX IF NOT EXISTS "radio_updated_at_idx" ON "radio" USING btree ("updated_at");
+  CREATE INDEX IF NOT EXISTS "radio_created_at_idx" ON "radio" USING btree ("created_at");
+  CREATE INDEX IF NOT EXISTS "radio_rels_order_idx" ON "radio_rels" USING btree ("order");
+  CREATE INDEX IF NOT EXISTS "radio_rels_parent_idx" ON "radio_rels" USING btree ("parent_id");
+  CREATE INDEX IF NOT EXISTS "radio_rels_path_idx" ON "radio_rels" USING btree ("path");
+  CREATE INDEX IF NOT EXISTS "radio_rels_artists_id_idx" ON "radio_rels" USING btree ("artists_id");
+  CREATE INDEX IF NOT EXISTS "radio_rels_genres_id_idx" ON "radio_rels" USING btree ("genres_id");
+  CREATE UNIQUE INDEX IF NOT EXISTS "artists_name_idx" ON "artists" USING btree ("name");
+  CREATE INDEX IF NOT EXISTS "artists_photo_idx" ON "artists" USING btree ("photo_id");
+  CREATE INDEX IF NOT EXISTS "artists_slug_idx" ON "artists" USING btree ("slug");
+  CREATE INDEX IF NOT EXISTS "artists_updated_at_idx" ON "artists" USING btree ("updated_at");
+  CREATE INDEX IF NOT EXISTS "artists_created_at_idx" ON "artists" USING btree ("created_at");
+  CREATE UNIQUE INDEX IF NOT EXISTS "genres_title_idx" ON "genres" USING btree ("title");
+  CREATE INDEX IF NOT EXISTS "genres_slug_idx" ON "genres" USING btree ("slug");
+  CREATE INDEX IF NOT EXISTS "genres_updated_at_idx" ON "genres" USING btree ("updated_at");
+  CREATE INDEX IF NOT EXISTS "genres_created_at_idx" ON "genres" USING btree ("created_at");
   CREATE INDEX IF NOT EXISTS "media_updated_at_idx" ON "media" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "media_created_at_idx" ON "media" USING btree ("created_at");
   CREATE UNIQUE INDEX IF NOT EXISTS "media_filename_idx" ON "media" USING btree ("filename");
@@ -1558,6 +1694,9 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_posts_id_idx" ON "payload_locked_documents_rels" USING btree ("posts_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_categories_id_idx" ON "payload_locked_documents_rels" USING btree ("categories_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_users_id_idx" ON "payload_locked_documents_rels" USING btree ("users_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_radio_id_idx" ON "payload_locked_documents_rels" USING btree ("radio_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_artists_id_idx" ON "payload_locked_documents_rels" USING btree ("artists_id");
+  CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_genres_id_idx" ON "payload_locked_documents_rels" USING btree ("genres_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_media_id_idx" ON "payload_locked_documents_rels" USING btree ("media_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_assets_id_idx" ON "payload_locked_documents_rels" USING btree ("assets_id");
   CREATE INDEX IF NOT EXISTS "payload_locked_documents_rels_audio_id_idx" ON "payload_locked_documents_rels" USING btree ("audio_id");
@@ -1623,6 +1762,10 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TABLE "categories_breadcrumbs" CASCADE;
   DROP TABLE "categories" CASCADE;
   DROP TABLE "users" CASCADE;
+  DROP TABLE "radio" CASCADE;
+  DROP TABLE "radio_rels" CASCADE;
+  DROP TABLE "artists" CASCADE;
+  DROP TABLE "genres" CASCADE;
   DROP TABLE "media" CASCADE;
   DROP TABLE "assets" CASCADE;
   DROP TABLE "audio" CASCADE;
@@ -1683,7 +1826,9 @@ export async function down({ payload, req }: MigrateDownArgs): Promise<void> {
   DROP TYPE "public"."enum__pages_v_version_status";
   DROP TYPE "public"."enum_posts_status";
   DROP TYPE "public"."enum__posts_v_version_status";
-  DROP TYPE "public"."enum_audio_key";
+  DROP TYPE "public"."enum_radio_type";
+  DROP TYPE "public"."enum_radio_properties_key";
+  DROP TYPE "public"."enum_radio_source_type";
   DROP TYPE "public"."enum_redirects_to_type";
   DROP TYPE "public"."enum_forms_confirmation_type";
   DROP TYPE "public"."enum_header_nav_items_link_type";
