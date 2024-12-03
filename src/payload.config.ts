@@ -22,6 +22,7 @@ import { Audio } from './modules/Upload/Audio'
 import { SiteInformation } from './modules/Customize/SiteInformation'
 import { ContactInformation } from './modules/Customize/ContactInformation'
 import { SiteGraphics } from './modules/Customize/SiteGraphics'
+import { HelpSection } from './modules/Settings/Help/config'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -41,6 +42,7 @@ export default buildConfig({
     Audio,
     // Settings
     Users,
+    HelpSection,
   ],
   globals: [
     // Navigation
@@ -55,7 +57,6 @@ export default buildConfig({
   admin: {
     components: {
       beforeLogin: ['@/components/BeforeLogin'],
-      beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),

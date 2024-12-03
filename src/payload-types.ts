@@ -21,6 +21,7 @@ export interface Config {
     assets: Asset;
     audio: Audio;
     users: User;
+    help: Help;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -48,6 +49,7 @@ export interface Config {
     assets: AssetsSelect<false> | AssetsSelect<true>;
     audio: AudioSelect<false> | AudioSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    help: HelpSelect<false> | HelpSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -757,6 +759,30 @@ export interface Asset {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "help".
+ */
+export interface Help {
+  id: number;
+  needHelp?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -869,6 +895,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'help';
+        value: number | Help;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1309,6 +1339,15 @@ export interface UsersSelect<T extends boolean = true> {
   hash?: T;
   loginAttempts?: T;
   lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "help_select".
+ */
+export interface HelpSelect<T extends boolean = true> {
+  needHelp?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
