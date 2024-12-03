@@ -4,24 +4,24 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
-import { Media } from './collections/Upload/Media'
-import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
-import { Users } from './collections/Users'
-import { Footer } from './Footer/config'
-import { Header } from './Header/config'
+import { Categories } from './modules/Content/Categories'
+import { Media } from './modules/Upload/Media'
+import { Pages } from './modules/Content/Pages'
+import { Posts } from './modules/Content/Posts'
+import { Users } from './modules/Settings/Users'
+import { Radio } from './modules/Content/Radio/Radio'
+import { Artists } from './modules/Content/Radio/Artists'
+import Genres from './modules/Content/Radio/Genres'
+import { Footer } from './modules/Navigation/Footer/config'
+import { Header } from './modules/Navigation/Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { Assets } from './collections/Upload/Assets'
-import { Audio } from './collections/Upload/Audio'
-import { SiteInformation } from './globals/Customize/SiteInformation'
-import { ContactInformation } from './globals/Customize/ContactInformation'
-import { SiteGraphics } from './globals/Customize/SiteGraphics'
-import { Radio } from './collections/Radio/Radio'
-import { Artists } from './collections/Radio/Artists'
-import Genres from './collections/Radio/Genres'
+import { Assets } from './modules/Upload/Assets'
+import { Audio } from './modules/Upload/Audio'
+import { SiteInformation } from './modules/Customize/SiteInformation'
+import { ContactInformation } from './modules/Customize/ContactInformation'
+import { SiteGraphics } from './modules/Customize/SiteGraphics'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -31,7 +31,6 @@ export default buildConfig({
     Pages,
     Posts,
     Categories,
-    Users,
     // Radio
     Radio,
     Artists,
@@ -40,6 +39,8 @@ export default buildConfig({
     Media,
     Assets,
     Audio,
+    // Settings
+    Users,
   ],
   globals: [
     // Navigation
