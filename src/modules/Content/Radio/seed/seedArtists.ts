@@ -4,15 +4,33 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
   payload.logger.info('Seeding artists...')
 
   for (const artist of artists) {
-    await payload.create({
-      collection: 'artists',
-      data: {
-        name: artist.name,
-        slug: artist.slug,
-        photo: artist.photo,
-        bio: artist.bio,
-      },
-    })
+    try {
+      // Check if artist already exists
+      const existingArtist = await payload.find({
+        collection: 'artists',
+        where: {
+          name: {
+            equals: artist.name,
+          },
+        },
+      })
+
+      if (existingArtist.docs.length === 0) {
+        await payload.create({
+          collection: 'artists',
+          data: {
+            name: artist.name,
+            slug: artist.slug,
+            photo: artist.photo,
+            bio: artist.bio,
+          },
+        })
+      } else {
+        payload.logger.info(`Artist "${artist.name}" already exists, skipping...`)
+      }
+    } catch (error) {
+      payload.logger.error(`Error seeding artist "${artist.name}":`, error)
+    }
   }
 
   payload.logger.info('Seeded artists successfully!')
