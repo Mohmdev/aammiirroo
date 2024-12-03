@@ -32,9 +32,6 @@ export const Genres: CollectionConfig = {
       required: true,
       unique: true,
       index: true,
-      admin: {
-        position: 'sidebar',
-      },
     },
     {
       name: 'Tracks',

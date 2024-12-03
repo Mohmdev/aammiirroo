@@ -213,3 +213,27 @@
 .card__title {
   font-weight: 400;
 }
+
+.group-field__header {
+  margin-top: 32px;
+  * {
+    font-size: 15px;
+    font-weight: 400;
+  }
+}
+
+.tabs-field__content-wrap {
+  padding-left: var(--gutter-h);
+  padding-right: var(--gutter-h);
+  padding-top: calc(var(--gutter-h) / 2);
+}
+
+.tabs-field__tab-button {
+  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.doc-controls__value {
+  font-size: 16px;
+}

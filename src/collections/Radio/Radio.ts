@@ -1,7 +1,6 @@
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
-import { release } from 'os'
 import type { CollectionConfig } from 'payload'
 
 export const Radio: CollectionConfig = {
@@ -38,27 +37,16 @@ export const Radio: CollectionConfig = {
   },
   fields: [
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'title',
-          type: 'text',
-          required: true,
-          unique: true,
-          index: true,
-          admin: {
-            width: '70%',
-          },
-        },
-        {
-          name: 'image',
-          type: 'upload',
-          relationTo: 'media',
-          admin: {
-            width: '30%',
-          },
-        },
-      ],
+      name: 'title',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       type: 'tabs',
@@ -74,6 +62,7 @@ export const Radio: CollectionConfig = {
                 {
                   name: 'type',
                   type: 'select',
+                  defaultValue: 'track',
                   options: [
                     { label: 'Track', value: 'track' },
                     { label: 'Set', value: 'set' },

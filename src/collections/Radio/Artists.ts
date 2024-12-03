@@ -27,27 +27,16 @@ export const Artists: CollectionConfig = {
   },
   fields: [
     {
-      type: 'row',
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-          unique: true,
-          index: true,
-          admin: {
-            width: '70%',
-          },
-        },
-        {
-          name: 'photo',
-          type: 'upload',
-          relationTo: 'media',
-          admin: {
-            width: '30%',
-          },
-        },
-      ],
+      name: 'name',
+      type: 'text',
+      required: true,
+      unique: true,
+      index: true,
+    },
+    {
+      name: 'photo',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       type: 'tabs',
