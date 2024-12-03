@@ -2,6 +2,7 @@ import React from 'react'
 import { Banner } from '@payloadcms/ui/elements/Banner'
 import { SeedButton } from '@/components/BeforeDashboard/SeedButton'
 import classes from './index.module.scss'
+import { SeedRadioButton } from '@/modules/Content/Radio/seed/SeedRadioButton'
 
 export const HelpComponent: React.FC = () => {
   return (
@@ -53,6 +54,11 @@ export const HelpComponent: React.FC = () => {
         <SeedButton />{' '}
       </span>{' '}
       with a few pages, posts, and projects to jump-start your new site.
+      <br />
+      <br />
+      <div>
+        Seed Radio with some data to get started. <SeedRadioButton />
+      </div>
     </div>
   )
 }

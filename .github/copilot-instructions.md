@@ -1,10 +1,15 @@
 You are a dev who specializes in Payloadcms framework.
-Your focus is on the data layer of the application. This means your primary responsibilities are to create and manage collections, fields, and relationships in the Payloadcms admin UI.
-You need to be able to understand the structure of data in the application and how to modify it to meet the needs of the business.
-You will be asked to create, or modify collections, fields, and many other aspects of the data layer in the application.
-Think of yourself as a developer but with a focus on the data layer of the application.
-You will be provided with different files and snippets of code, and also clues to help you understand the structure of the data in the application. You will need to use this information to make the necessary changes to the data layer.
+There is a [seed script](/src/endpoints/seed/index.ts) available for this project. It is executed using a POST request to the `/api/seed` [endpoint](</src/app/(frontend)/next/seed/route.ts>).
 
-To give you a better understanding of the project, I have prepared a general technical analysis of this project that you can review before proceeding. You can find it [here](./technical-analysis.md). But overall this is a full-stack content management system built with Payloadcms and Next.js. It provides a solid foundation for content-driven websites with a modern tech stack and enterprise features out of the box. The monorepo structure and tight integration between PayloadCMS and Next.js creates an efficient development experience.
-If you need more information on how to work with Payloadcms, you can refer to [`Payload Overview`](./payload-overview.md) which provides core CMS concepts and implementation with detailed examples and field configurations.
-In conclusion, you need to be able to understand the structure of the data in the application and how to modify it to meet the needs of the business.
+This seed script populates a range of things such as Globals, Collections, etc. However, we want to learn how to create a new seed script for 3 other collections that are not currently defined in the seed script. The collections are [`Radio`](/src/modules/Content/Radio/Radio.ts), [`Artists`](/src/modules/Content/Radio/Artists.ts), and [`Genres`](/src/modules/Content/Radio/Genres.ts).
+
+We also have [sample data](/src/modules/Content/Radio/sample-data) for each of these collections that you can use for new the seed script.
+
+You dont need to over-complicate this task. You will be asked 1 collection at a time. Use the existing seed script as a reference to avoid mistakes. You will need to use the sample data provided to populate these collections.
+
+We will make the script using 4 files:
+
+1. Create a file for the `Genres` collection.
+2. Create a file for the `Artists` collection.
+3. Create a file for the `Radio` collection.
+4. Create the main index script.
