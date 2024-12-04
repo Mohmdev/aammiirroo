@@ -18,7 +18,7 @@ export const Artists: CollectionConfig = {
   admin: {
     group: 'Radio',
     useAsTitle: 'name',
-    defaultColumns: ['photo', 'name', 'tracks', 'website'],
+    defaultColumns: ['photo', 'name', 'Tracks', 'SoundCloud', 'Beatport'],
   },
   defaultPopulate: {
     name: true,
@@ -58,76 +58,85 @@ export const Artists: CollectionConfig = {
           label: 'Meta',
           fields: [
             {
+              name: 'bio',
+              type: 'textarea',
+            },
+            {
               type: 'row',
               fields: [
                 {
-                  name: 'bio',
-                  type: 'textarea',
+                  name: 'SoundCloud',
+                  label: 'SoundCloud',
+                  type: 'text',
                   admin: {
-                    width: '60%',
+                    width: '33%',
                   },
                 },
                 {
-                  name: 'platforms',
-                  label: '',
-                  type: 'group',
+                  name: 'Beatport',
+                  type: 'text',
                   admin: {
-                    width: '40%',
+                    width: '33%',
                   },
-                  fields: [
-                    {
-                      name: 'SoundCloud',
-                      type: 'text',
-                    },
-                    {
-                      name: 'Beatport',
-                      type: 'text',
-                    },
-                    {
-                      name: 'Spotify',
-                      type: 'text',
-                    },
-                    {
-                      name: 'Bandcamp',
-                      type: 'text',
-                    },
-                    {
-                      name: 'YouTube',
-                      type: 'text',
-                    },
-                  ],
+                },
+                {
+                  name: 'Spotify',
+                  type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
                 },
               ],
             },
             {
               type: 'row',
-              admin: {
-                width: '50%',
-              },
               fields: [
                 {
-                  name: 'website',
+                  name: 'Bandcamp',
                   type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
                 },
                 {
-                  name: 'instagram',
+                  name: 'YouTube',
                   type: 'text',
-                },
-              ],
-            },
-            {
-              type: 'row',
-              admin: {
-                width: '50%',
-              },
-              fields: [
-                {
-                  name: 'twitter',
-                  type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
                 },
                 {
                   name: 'facebook',
                   type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
+                },
+              ],
+            },
+            {
+              type: 'row',
+              fields: [
+                {
+                  name: 'twitter',
+                  type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
+                },
+                {
+                  name: 'instagram',
+                  type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
+                },
+                {
+                  name: 'website',
+                  type: 'text',
+                  admin: {
+                    width: '33%',
+                  },
                 },
               ],
             },

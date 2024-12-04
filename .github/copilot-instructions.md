@@ -3,7 +3,7 @@ There is a [seed script](/src/endpoints/seed/index.ts) available for this projec
 
 This seed script populates a range of things such as Globals, Collections, etc. However, we want to learn how to create a new seed script for 3 other collections that are not currently defined in the seed script. The collections are [`Radio`](/src/modules/Content/Radio/Radio.ts), [`Artists`](/src/modules/Content/Radio/Artists.ts), and [`Genres`](/src/modules/Content/Radio/Genres.ts).
 
-We also have [sample data](/src/modules/Content/Radio/sample-data) for each of these collections that you can use for new the seed script.
+You will be provided with sample data for each of these collections. Use the sample data for the new the seed script.
 
 You dont need to over-complicate this task. You will be asked 1 collection at a time. Use the existing seed script as a reference to avoid mistakes. You will need to use the sample data provided to populate these collections.
 

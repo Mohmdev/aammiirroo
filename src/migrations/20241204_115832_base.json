@@ -1,5 +1,5 @@
 {
-  "id": "5c86db38-edbc-4ef7-bbf1-62948b5db014",
+  "id": "e08a4177-c774-485b-b2b8-3d9d84bfb0be",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -4684,44 +4684,38 @@
           "primaryKey": false,
           "notNull": false
         },
-        "platforms_sound_cloud": {
-          "name": "platforms_sound_cloud",
+        "sound_cloud": {
+          "name": "sound_cloud",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "platforms_beatport": {
-          "name": "platforms_beatport",
+        "beatport": {
+          "name": "beatport",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "platforms_spotify": {
-          "name": "platforms_spotify",
+        "spotify": {
+          "name": "spotify",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "platforms_bandcamp": {
-          "name": "platforms_bandcamp",
+        "bandcamp": {
+          "name": "bandcamp",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "platforms_you_tube": {
-          "name": "platforms_you_tube",
+        "you_tube": {
+          "name": "you_tube",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
         },
-        "website": {
-          "name": "website",
-          "type": "varchar",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "instagram": {
-          "name": "instagram",
+        "facebook": {
+          "name": "facebook",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false
@@ -4732,8 +4726,14 @@
           "primaryKey": false,
           "notNull": false
         },
-        "facebook": {
-          "name": "facebook",
+        "instagram": {
+          "name": "instagram",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "website": {
+          "name": "website",
           "type": "varchar",
           "primaryKey": false,
           "notNull": false

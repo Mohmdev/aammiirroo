@@ -18,7 +18,7 @@ export const Genres: CollectionConfig = {
   admin: {
     group: 'Radio',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'tracks', 'description'],
+    defaultColumns: ['title', 'Tracks', 'description', 'slug'],
   },
   defaultPopulate: {
     title: true,

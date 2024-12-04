@@ -17,7 +17,7 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
     type: 'checkbox',
     defaultValue: true,
     admin: {
-      hidden: true,
+      // hidden: true,
       position: 'sidebar',
     },
     ...checkboxOverrides,
@@ -30,6 +30,7 @@ export const slugField: Slug = (fieldToUse = 'title', overrides = {}) => {
     type: 'text',
     index: true,
     label: 'Slug',
+    required: true,
     ...(slugOverrides || {}),
     hooks: {
       // Kept this in for hook or API based updates

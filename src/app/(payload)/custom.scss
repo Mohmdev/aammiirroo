@@ -43,7 +43,7 @@
   background-color: var(--theme-elevation-50);
 }
 
-// All nav-groups
+/* ---------------------------- // All nav-groups --------------------------- */
 .nav-group {
   .nav-group__toggle {
     .nav-group__label {
@@ -58,8 +58,9 @@
     margin-bottom: 0.5rem;
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
-// "Collections" nav-group
+/* ----------------------- // "Collections" nav-group ----------------------- */
 .nav-group {
   &.Collections {
     margin-top: 5%;
@@ -99,6 +100,7 @@
   }
 }
 
+/* --------------------------- Nav groups order -------------------------- */
 .nav__wrap {
   .nav-group {
     &.Collections {
@@ -127,8 +129,9 @@
     order: 99;
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
-// Dashboard home groups
+/* ------------------------ Dashboard groups order ------------------------ */
 // .dashboard__wrap {
 //   .dashboard__group {
 //     // Collections
@@ -166,8 +169,9 @@
 //     }
 //   }
 // }
+/* ----------------------------------- // ----------------------------------- */
 
-// Dashboard home cleanup
+/* ------------------------ Dashboard home cleanup ----------------------- */
 .template-default__wrap {
   --spacing-view: var(--gutter-h);
   --dashboard-gap: 50px;
@@ -193,6 +197,7 @@
     }
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
 .doc-header {
   @media (max-width: 1024px) {
@@ -201,7 +206,7 @@
   }
 }
 
-// Typography
+/* ------------------------------ Typography ----------------------------- */
 .dashboard__wrap {
   .dashboard__group {
     .dashboard__label {
@@ -237,3 +242,37 @@
 .doc-controls__value {
   font-size: 16px;
 }
+/* ----------------------------------- // ----------------------------------- */
+
+/* -------------------- artists collections list view -------------------- */
+
+.collection-list--artists table {
+  table-layout: auto;
+}
+
+.collection-list--artists .file__filename,
+.collection-list--artists #heading-photo .sort-column .sort-column__buttons {
+  display: none;
+}
+
+.collection-list--artists .cell-photo,
+.collection-list--artists #heading-photo {
+  width: 80px;
+}
+
+.collection-list--artists .cell-_select,
+.collection-list--artists #heading-select {
+  width: 60px;
+}
+
+.collection-list .table table .cell-_select {
+  display: table-cell;
+  width: 60px;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  min-width: 100px;
+}
+/* ----------------------------------- // ----------------------------------- */

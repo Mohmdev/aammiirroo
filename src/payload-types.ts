@@ -681,17 +681,15 @@ export interface Artist {
     hasNextPage?: boolean | null;
   } | null;
   bio?: string | null;
-  platforms?: {
-    SoundCloud?: string | null;
-    Beatport?: string | null;
-    Spotify?: string | null;
-    Bandcamp?: string | null;
-    YouTube?: string | null;
-  };
-  website?: string | null;
-  instagram?: string | null;
-  twitter?: string | null;
+  SoundCloud?: string | null;
+  Beatport?: string | null;
+  Spotify?: string | null;
+  Bandcamp?: string | null;
+  YouTube?: string | null;
   facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  website?: string | null;
   slug?: string | null;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1168,19 +1166,15 @@ export interface ArtistsSelect<T extends boolean = true> {
   photo?: T;
   Tracks?: T;
   bio?: T;
-  platforms?:
-    | T
-    | {
-        SoundCloud?: T;
-        Beatport?: T;
-        Spotify?: T;
-        Bandcamp?: T;
-        YouTube?: T;
-      };
-  website?: T;
-  instagram?: T;
-  twitter?: T;
+  SoundCloud?: T;
+  Beatport?: T;
+  Spotify?: T;
+  Bandcamp?: T;
+  YouTube?: T;
   facebook?: T;
+  twitter?: T;
+  instagram?: T;
+  website?: T;
   slug?: T;
   slugLock?: T;
   updatedAt?: T;
