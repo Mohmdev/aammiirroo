@@ -399,7 +399,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE TABLE IF NOT EXISTS "artists" (
   	"id" serial PRIMARY KEY NOT NULL,
   	"title" varchar,
-  	"photo_id" integer,
+  	"image_id" integer,
   	"bio" varchar,
   	"sound_cloud" varchar,
   	"beatport" varchar,
@@ -430,7 +430,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"id" serial PRIMARY KEY NOT NULL,
   	"parent_id" integer,
   	"version_title" varchar,
-  	"version_photo_id" integer,
+  	"version_image_id" integer,
   	"version_bio" varchar,
   	"version_sound_cloud" varchar,
   	"version_beatport" varchar,
@@ -1252,7 +1252,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "artists" ADD CONSTRAINT "artists_photo_id_media_id_fk" FOREIGN KEY ("photo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+   ALTER TABLE "artists" ADD CONSTRAINT "artists_image_id_media_id_fk" FOREIGN KEY ("image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1270,7 +1270,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   END $$;
   
   DO $$ BEGIN
-   ALTER TABLE "_artists_v" ADD CONSTRAINT "_artists_v_version_photo_id_media_id_fk" FOREIGN KEY ("version_photo_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
+   ALTER TABLE "_artists_v" ADD CONSTRAINT "_artists_v_version_image_id_media_id_fk" FOREIGN KEY ("version_image_id") REFERENCES "public"."media"("id") ON DELETE set null ON UPDATE no action;
   EXCEPTION
    WHEN duplicate_object THEN null;
   END $$;
@@ -1689,7 +1689,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "artists_populated_authors_order_idx" ON "artists_populated_authors" USING btree ("_order");
   CREATE INDEX IF NOT EXISTS "artists_populated_authors_parent_id_idx" ON "artists_populated_authors" USING btree ("_parent_id");
   CREATE UNIQUE INDEX IF NOT EXISTS "artists_title_idx" ON "artists" USING btree ("title");
-  CREATE INDEX IF NOT EXISTS "artists_photo_idx" ON "artists" USING btree ("photo_id");
+  CREATE INDEX IF NOT EXISTS "artists_image_idx" ON "artists" USING btree ("image_id");
   CREATE INDEX IF NOT EXISTS "artists_slug_idx" ON "artists" USING btree ("slug");
   CREATE INDEX IF NOT EXISTS "artists_updated_at_idx" ON "artists" USING btree ("updated_at");
   CREATE INDEX IF NOT EXISTS "artists_created_at_idx" ON "artists" USING btree ("created_at");
@@ -1698,7 +1698,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   CREATE INDEX IF NOT EXISTS "_artists_v_version_populated_authors_parent_id_idx" ON "_artists_v_version_populated_authors" USING btree ("_parent_id");
   CREATE INDEX IF NOT EXISTS "_artists_v_parent_idx" ON "_artists_v" USING btree ("parent_id");
   CREATE INDEX IF NOT EXISTS "_artists_v_version_version_title_idx" ON "_artists_v" USING btree ("version_title");
-  CREATE INDEX IF NOT EXISTS "_artists_v_version_version_photo_idx" ON "_artists_v" USING btree ("version_photo_id");
+  CREATE INDEX IF NOT EXISTS "_artists_v_version_version_image_idx" ON "_artists_v" USING btree ("version_image_id");
   CREATE INDEX IF NOT EXISTS "_artists_v_version_version_slug_idx" ON "_artists_v" USING btree ("version_slug");
   CREATE INDEX IF NOT EXISTS "_artists_v_version_version_updated_at_idx" ON "_artists_v" USING btree ("version_updated_at");
   CREATE INDEX IF NOT EXISTS "_artists_v_version_version_created_at_idx" ON "_artists_v" USING btree ("version_created_at");

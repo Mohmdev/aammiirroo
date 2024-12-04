@@ -1,5 +1,28 @@
 import { Payload } from 'payload'
 import { tracks } from './tracks'
+import { fetchImageByURL } from '../fetchFile'
+
+interface TrackProperties {
+  id: number
+  bpm?: number
+  key?:
+    | 'C#'
+    | 'D'
+    | 'F'
+    | 'G'
+    | 'E'
+    | 'A#'
+    | 'A'
+    | 'D#'
+    | 'G#'
+    | 'B'
+    | 'C'
+    | 'F#'
+    | null
+    | undefined
+  duration?: number
+  type: 'track' | 'set' | null | undefined
+}
 
 export const seedTracks = async (payload: Payload): Promise<void> => {
   for (const track of tracks) {
@@ -15,15 +38,24 @@ export const seedTracks = async (payload: Payload): Promise<void> => {
       })
 
       if (existingTrack.docs.length === 0) {
+        const imageBuffer = await fetchImageByURL(track.image as string)
+        const mediaDoc = await payload.create({
+          collection: 'media',
+          data: {
+            alt: `Photo of ${track.title}`,
+          },
+          file: imageBuffer,
+        })
+
         await payload.create({
           collection: 'tracks',
           data: {
             id: track.id,
-            title: track.title as string,
-            slug: track.slug as string,
+            title: track.title,
+            slug: track.slug,
             type: track.type,
-            artist: track.artist as number[],
-            genres: track.genres as number[],
+            artist: track.artist,
+            genres: track.genres,
             properties: {
               bpm: track.properties?.bpm,
               key: track.properties?.key,
@@ -36,7 +68,7 @@ export const seedTracks = async (payload: Payload): Promise<void> => {
             },
             sourceType: track.sourceType,
             trackLink: track.trackLink,
-            image: (track.image as number) || null,
+            image: mediaDoc.id,
           },
         })
       } else {
