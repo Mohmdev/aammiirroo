@@ -11,8 +11,8 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
       const existingArtist = await payload.find({
         collection: 'artists',
         where: {
-          name: {
-            equals: artist.name,
+          title: {
+            equals: artist.title,
           },
         },
       })
@@ -26,7 +26,7 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
         const mediaDoc = await payload.create({
           collection: 'media',
           data: {
-            alt: `Photo of ${artist.name}`,
+            alt: `Photo of ${artist.title}`,
           },
           file: imageBuffer,
         })
@@ -35,19 +35,20 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
         await payload.create({
           collection: 'artists',
           data: {
-            name: artist.name,
+            _status: 'published',
+            title: artist.title,
             slug: artist.slug,
             photo: mediaDoc.id, // Reference the media doc ID
             bio: artist.bio,
           },
         })
 
-        payload.logger.info(`Created artist "${artist.name}" with photo`)
+        payload.logger.info(`Created artist "${artist.title}" with photo`)
       } else {
-        payload.logger.info(`Artist "${artist.name}" already exists, skipping...`)
+        payload.logger.info(`Artist "${artist.title}" already exists, skipping...`)
       }
     } catch (error) {
-      payload.logger.error(`Error seeding artist "${artist.name}":`, error)
+      payload.logger.error(`Error seeding artist "${artist.title}":`, error)
     }
   }
 

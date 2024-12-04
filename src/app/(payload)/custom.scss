@@ -115,9 +115,7 @@
     &.Navigation {
       order: 4;
     }
-    &.Storage,
-    &.Cloud.Storage {
-      // Handle both cases
+    &.Uploads {
       order: 20;
     }
     &.Settings {
@@ -132,43 +130,43 @@
 /* ----------------------------------- // ----------------------------------- */
 
 /* ------------------------ Dashboard groups order ------------------------ */
-// .dashboard__wrap {
-//   .dashboard__group {
-//     // Collections
-//     &:nth-of-type(1) {
-//       order: 1;
+.dashboard__wrap {
+  .dashboard__group {
+    // Collections
+    &:nth-of-type(1) {
+      order: 1;
 
-//       .dashboard__label {
-//         display: none;
-//       }
-//     }
+      .dashboard__label {
+        display: none;
+      }
+    }
 
-//     // Radio
-//     &:nth-of-type(2) {
-//       order: 2;
-//     }
+    // Radio
+    &:nth-of-type(2) {
+      order: 2;
+    }
 
-//     // Uploads
-//     &:nth-of-type(3) {
-//       order: 20;
-//     }
+    // Uploads
+    &:nth-of-type(3) {
+      order: 20;
+    }
 
-//     // Settings
-//     &:nth-of-type(4) {
-//       order: 30;
-//     }
+    // Settings
+    &:nth-of-type(4) {
+      order: 30;
+    }
 
-//     // Navigation
-//     &:nth-of-type(5) {
-//       order: 3;
-//     }
+    // Navigation
+    &:nth-of-type(5) {
+      order: 3;
+    }
 
-//     // Customize
-//     &:nth-of-type(6) {
-//       order: 2;
-//     }
-//   }
-// }
+    // Customize
+    &:nth-of-type(6) {
+      order: 4;
+    }
+  }
+}
 /* ----------------------------------- // ----------------------------------- */
 
 /* ------------------------ Dashboard home cleanup ----------------------- */
@@ -187,7 +185,7 @@
     flex: 1;
 
     .dashboard__wrap {
-      padding-block: var(--spacing-view); // 16px
+      padding-block: calc(var(--spacing-view) / 2);
       gap: var(--dashboard-gap);
 
       @media (max-width: 768px) {

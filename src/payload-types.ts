@@ -14,7 +14,7 @@ export interface Config {
     pages: Page;
     posts: Post;
     categories: Category;
-    radio: Radio;
+    tracks: Track;
     artists: Artist;
     genres: Genre;
     media: Media;
@@ -32,17 +32,17 @@ export interface Config {
   };
   collectionsJoins: {
     artists: {
-      Tracks: 'radio';
+      Tracks: 'tracks';
     };
     genres: {
-      Tracks: 'radio';
+      Tracks: 'tracks';
     };
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    radio: RadioSelect<false> | RadioSelect<true>;
+    tracks: TracksSelect<false> | TracksSelect<true>;
     artists: ArtistsSelect<false> | ArtistsSelect<true>;
     genres: GenresSelect<false> | GenresSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -151,7 +151,7 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -424,7 +424,7 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -640,13 +640,13 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "radio".
+ * via the `definition` "tracks".
  */
-export interface Radio {
+export interface Track {
   id: number;
   title: string;
   image?: (number | null) | Media;
-  type: 'track' | 'set';
+  type?: ('track' | 'set') | null;
   artist?: (number | Artist)[] | null;
   genres?: (number | Genre)[] | null;
   generalDetails?: {
@@ -663,7 +663,7 @@ export interface Radio {
   internalUpload?: (number | null) | Audio;
   trackLink?: string | null;
   embedTrack?: string | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -674,10 +674,10 @@ export interface Radio {
  */
 export interface Artist {
   id: number;
-  name: string;
+  title: string;
   photo?: (number | null) | Media;
   Tracks?: {
-    docs?: (number | Radio)[] | null;
+    docs?: (number | Track)[] | null;
     hasNextPage?: boolean | null;
   } | null;
   bio?: string | null;
@@ -690,10 +690,18 @@ export interface Artist {
   twitter?: string | null;
   instagram?: string | null;
   website?: string | null;
-  slug?: string | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
   slugLock?: boolean | null;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -702,13 +710,14 @@ export interface Artist {
 export interface Genre {
   id: number;
   title: string;
+  description?: string | null;
   Tracks?: {
-    docs?: (number | Radio)[] | null;
+    docs?: (number | Track)[] | null;
     hasNextPage?: boolean | null;
   } | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
-  description?: string | null;
+  publishedAt?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -867,8 +876,8 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
-        relationTo: 'radio';
-        value: number | Radio;
+        relationTo: 'tracks';
+        value: number | Track;
       } | null)
     | ({
         relationTo: 'artists';
@@ -1126,9 +1135,9 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "radio_select".
+ * via the `definition` "tracks_select".
  */
-export interface RadioSelect<T extends boolean = true> {
+export interface TracksSelect<T extends boolean = true> {
   title?: T;
   image?: T;
   type?: T;
@@ -1162,7 +1171,7 @@ export interface RadioSelect<T extends boolean = true> {
  * via the `definition` "artists_select".
  */
 export interface ArtistsSelect<T extends boolean = true> {
-  name?: T;
+  title?: T;
   photo?: T;
   Tracks?: T;
   bio?: T;
@@ -1175,10 +1184,18 @@ export interface ArtistsSelect<T extends boolean = true> {
   twitter?: T;
   instagram?: T;
   website?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+      };
   slug?: T;
   slugLock?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1186,10 +1203,11 @@ export interface ArtistsSelect<T extends boolean = true> {
  */
 export interface GenresSelect<T extends boolean = true> {
   title?: T;
+  description?: T;
   Tracks?: T;
   slug?: T;
   slugLock?: T;
-  description?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
 }

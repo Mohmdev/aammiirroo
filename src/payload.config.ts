@@ -9,7 +9,7 @@ import { Media } from './modules/Upload/Media'
 import { Pages } from './modules/Content/Pages'
 import { Posts } from './modules/Content/Posts'
 import { Users } from './modules/Settings/Users'
-import { Radio } from './modules/Content/Radio/Radio'
+import { Tracks } from './modules/Content/Radio/Tracks'
 import { Artists } from './modules/Content/Radio/Artists'
 import Genres from './modules/Content/Radio/Genres'
 import { Footer } from './modules/Navigation/Footer/config'
@@ -33,7 +33,7 @@ export default buildConfig({
     Posts,
     Categories,
     // Radio
-    Radio,
+    Tracks,
     Artists,
     Genres,
     // Uploads

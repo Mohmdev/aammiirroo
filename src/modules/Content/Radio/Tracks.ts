@@ -3,8 +3,8 @@ import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
 import type { CollectionConfig } from 'payload'
 
-export const Radio: CollectionConfig = {
-  slug: 'radio',
+export const Tracks: CollectionConfig = {
+  slug: 'tracks',
   labels: {
     singular: 'Track',
     plural: 'Tracks',
@@ -67,7 +67,6 @@ export const Radio: CollectionConfig = {
                     { label: 'Track', value: 'track' },
                     { label: 'Set', value: 'set' },
                   ],
-                  required: true,
                   admin: {
                     width: '20%',
                   },

@@ -2,6 +2,8 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
+import { revalidateArtist } from './hooks/revalidateArtist'
+import { populateAuthors } from '../../../hooks/populateAuthors'
 
 export const Artists: CollectionConfig = {
   slug: 'artists',
@@ -17,17 +19,25 @@ export const Artists: CollectionConfig = {
   },
   admin: {
     group: 'Radio',
-    useAsTitle: 'name',
-    defaultColumns: ['photo', 'name', 'Tracks', 'SoundCloud', 'Beatport'],
+    useAsTitle: 'title',
+    defaultColumns: ['photo', 'title', 'Tracks', 'SoundCloud', 'Beatport'],
   },
   defaultPopulate: {
-    name: true,
+    title: true,
     slug: true,
     photo: true,
   },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+    },
+    maxPerDoc: 50,
+  },
   fields: [
     {
-      name: 'name',
+      name: 'title',
       type: 'text',
       required: true,
       unique: true,
@@ -48,7 +58,7 @@ export const Artists: CollectionConfig = {
             {
               name: 'Tracks',
               type: 'join',
-              collection: 'radio',
+              collection: 'tracks',
               on: 'artist',
             },
           ],
@@ -144,6 +154,53 @@ export const Artists: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'populatedAuthors',
+      type: 'array',
+      access: {
+        update: () => false,
+      },
+      admin: {
+        disabled: true,
+        readOnly: true,
+      },
+      fields: [
+        {
+          name: 'id',
+          type: 'text',
+        },
+        {
+          name: 'name',
+          type: 'text',
+        },
+      ],
+    },
     ...slugField(),
+    // publishedAt field with auto-populate `beforeChange` hook
+    // TODO: Make this a reusable field
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
+      },
+    },
   ],
+  hooks: {
+    afterChange: [revalidateArtist],
+    afterRead: [populateAuthors],
+  },
 }

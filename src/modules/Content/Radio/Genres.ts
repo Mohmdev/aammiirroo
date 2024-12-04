@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
+import { revalidateGenre } from './hooks/revalidateGenre'
 
 export const Genres: CollectionConfig = {
   slug: 'genres',
@@ -34,20 +35,40 @@ export const Genres: CollectionConfig = {
       index: true,
     },
     {
+      name: 'description',
+      type: 'textarea',
+    },
+    {
       name: 'Tracks',
       type: 'join',
-      collection: 'radio',
+      collection: 'tracks',
       on: 'genres',
     },
     ...slugField(),
     {
-      name: 'description',
-      type: 'textarea',
+      name: 'publishedAt',
+      type: 'date',
       admin: {
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
         position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
       },
     },
   ],
+  hooks: {
+    afterChange: [revalidateGenre],
+  },
 }
 
 export default Genres

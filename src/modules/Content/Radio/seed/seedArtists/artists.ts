@@ -1,6 +1,6 @@
 export const artists = [
   {
-    name: 'Alex Stein',
+    title: 'Alex Stein',
     slug: 'alex-stein',
     // photo: './img/alex-stein-2.jpg',
     photo:
@@ -11,7 +11,7 @@ export const artists = [
     },
   },
   {
-    name: 'Victor Ruiz',
+    title: 'Victor Ruiz',
     slug: 'victor-ruiz',
     // photo: './img/victor-ruiz-1.jpg',
     photo:
@@ -22,7 +22,7 @@ export const artists = [
     },
   },
   {
-    name: 'ARTBAT',
+    title: 'ARTBAT',
     slug: 'artbat',
     // photo: './img/artbat-1.jpg',
     photo:
@@ -33,7 +33,7 @@ export const artists = [
     },
   },
   {
-    name: 'Charlotte de Witte',
+    title: 'Charlotte de Witte',
     slug: 'charlotte-de-witte',
     // photo: './img/charlotte-de-witte-1.jpg',
     photo:
@@ -44,7 +44,7 @@ export const artists = [
     },
   },
   {
-    name: 'Enrico Sangiuliano',
+    title: 'Enrico Sangiuliano',
     slug: 'enrico-sangiuliano',
     // photo: './img/enrico-sangiuliano-1.jpg',
     photo:
@@ -55,7 +55,7 @@ export const artists = [
     },
   },
   {
-    name: 'Amelie Lens',
+    title: 'Amelie Lens',
     slug: 'amelie-lens',
     // photo: './img/amelie-lens-2.jpg',
     photo:
@@ -66,7 +66,7 @@ export const artists = [
     },
   },
   {
-    name: 'Tale of Us',
+    title: 'Tale of Us',
     slug: 'tale-of-us',
     // photo: './img/tale-of-us-1.jpg',
     photo:
@@ -77,7 +77,7 @@ export const artists = [
     },
   },
   {
-    name: 'Reinier Zonneveld',
+    title: 'Reinier Zonneveld',
     slug: 'reinier-zonneveld',
     // photo: './img/reinier-zonneveld-1.jpg',
     photo:
