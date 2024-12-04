@@ -20,12 +20,12 @@ export const Artists: CollectionConfig = {
   admin: {
     group: 'Radio',
     useAsTitle: 'title',
-    defaultColumns: ['photo', 'title', 'Tracks', 'SoundCloud', 'Beatport'],
+    defaultColumns: ['image', 'title', 'Tracks', 'SoundCloud', 'Beatport'],
   },
   defaultPopulate: {
     title: true,
     slug: true,
-    photo: true,
+    image: true,
   },
   versions: {
     drafts: {
@@ -44,7 +44,7 @@ export const Artists: CollectionConfig = {
       index: true,
     },
     {
-      name: 'photo',
+      name: 'image',
       type: 'upload',
       relationTo: 'media',
     },

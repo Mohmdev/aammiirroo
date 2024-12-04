@@ -17,10 +17,10 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
 
       if (existingArtist.docs.length === 0) {
         // 1. Fetch the image file
-        const imageBuffer = await fetchImageByURL(artist.photo)
-        // const imageBuffer = await fetchLocalImage(artist.photo)
+        const imageBuffer = await fetchImageByURL(artist.image)
+        // const imageBuffer = await fetchLocalImage(artist.image)
 
-        // 2. Create media document for artist photo
+        // 2. Create media document for artist image
         const mediaDoc = await payload.create({
           collection: 'media',
           data: {
@@ -37,12 +37,12 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
             id: artist.id,
             title: artist.title,
             slug: artist.slug,
-            photo: mediaDoc.id, // Reference the media doc ID
+            image: mediaDoc.id, // Reference the media doc ID
             bio: artist.bio,
           },
         })
 
-        // payload.logger.info(`Created artist "${artist.title}" with photo`)
+        // payload.logger.info(`Created artist "${artist.title}" with image`)
       } else {
         payload.logger.info(`"Artist ${artist.title}" already exists, skipping...`)
       }

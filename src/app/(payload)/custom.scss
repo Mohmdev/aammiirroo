@@ -242,24 +242,30 @@
 }
 /* ----------------------------------- // ----------------------------------- */
 
-/* -------------------- artists collections list view -------------------- */
+/* ---------------- artists and tracks collections list view ---------------- */
 
-.collection-list--artists table {
+.collection-list table {
   table-layout: auto;
 }
 
 .collection-list--artists .file__filename,
-.collection-list--artists #heading-photo .sort-column .sort-column__buttons {
+.collection-list--artists #heading-image .sort-column .sort-column__buttons,
+.collection-list--tracks .file__filename,
+.collection-list--tracks #heading-image .sort-column .sort-column__buttons {
   display: none;
 }
 
-.collection-list--artists .cell-photo,
-.collection-list--artists #heading-photo {
+.collection-list--artists .cell-image,
+.collection-list--artists #heading-image,
+.collection-list--tracks .cell-image,
+.collection-list--tracks #heading-image {
   width: 80px;
 }
 
 .collection-list--artists .cell-_select,
-.collection-list--artists #heading-select {
+.collection-list--artists #heading-select,
+.collection-list--tracks .cell-_select,
+.collection-list--tracks #heading-select {
   width: 60px;
 }
 
@@ -271,6 +277,6 @@
 .table td,
 .table th {
   vertical-align: middle;
-  min-width: 100px;
+  min-width: 60px;
 }
 /* ----------------------------------- // ----------------------------------- */

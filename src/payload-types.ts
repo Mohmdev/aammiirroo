@@ -675,7 +675,7 @@ export interface Track {
 export interface Artist {
   id: number;
   title: string;
-  photo?: (number | null) | Media;
+  image?: (number | null) | Media;
   Tracks?: {
     docs?: (number | Track)[] | null;
     hasNextPage?: boolean | null;
@@ -1172,7 +1172,7 @@ export interface TracksSelect<T extends boolean = true> {
  */
 export interface ArtistsSelect<T extends boolean = true> {
   title?: T;
-  photo?: T;
+  image?: T;
   Tracks?: T;
   bio?: T;
   SoundCloud?: T;
