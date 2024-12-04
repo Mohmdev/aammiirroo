@@ -1,5 +1,5 @@
 import { createLocalReq, getPayload } from 'payload'
-import { seedRadioContent } from '@/modules/Content/Radio/seed'
+import { seedRadioContent } from '@/modules/Radio/seed'
 import config from '@payload-config'
 import { headers } from 'next/headers'
 

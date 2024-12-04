@@ -1,5 +1,4 @@
-// Sample data for the Radio collection
-const radioTracks = [
+export const tracks = [
   {
     title: 'Aurora',
     type: 'track',
@@ -161,5 +160,3 @@ const radioTracks = [
     slug: 'momentum',
   },
 ]
-
-export default radioTracks

@@ -70,5 +70,3 @@ export const Genres: CollectionConfig = {
     afterChange: [revalidateGenre],
   },
 }
-
-export default Genres

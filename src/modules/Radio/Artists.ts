@@ -3,7 +3,7 @@ import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
 import { revalidateArtist } from './hooks/revalidateArtist'
-import { populateAuthors } from '../../../hooks/populateAuthors'
+import { populateAuthors } from '../../hooks/populateAuthors'
 
 export const Artists: CollectionConfig = {
   slug: 'artists',
