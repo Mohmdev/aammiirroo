@@ -80,7 +80,6 @@ export const Tracks: CollectionConfig = {
                   type: 'relationship',
                   relationTo: 'artists',
                   hasMany: true,
-                  // required: true,
                   admin: {
                     width: '40%',
                   },
@@ -171,7 +170,6 @@ export const Tracks: CollectionConfig = {
                 { label: 'Beatport', value: 'beatport' },
                 { label: 'Bandcamp', value: 'bandcamp' },
               ],
-              required: true,
             },
             // Conditional Fields Based on Source Type
             {

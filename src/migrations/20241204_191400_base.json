@@ -1,5 +1,5 @@
 {
-  "id": "af55b166-5dbf-4756-9cd3-4f4788b0e7c2",
+  "id": "7a8695e2-1f8f-44df-bc65-246676c231c6",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -4317,7 +4317,7 @@
           "type": "enum_tracks_source_type",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
         },
         "internal_upload_id": {
           "name": "internal_upload_id",

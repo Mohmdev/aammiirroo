@@ -370,7 +370,7 @@ export async function up({ payload, req }: MigrateUpArgs): Promise<void> {
   	"properties_bpm" numeric,
   	"properties_key" "enum_tracks_properties_key",
   	"properties_duration" numeric,
-  	"source_type" "enum_tracks_source_type" NOT NULL,
+  	"source_type" "enum_tracks_source_type",
   	"internal_upload_id" integer,
   	"track_link" varchar,
   	"embed_track" varchar,

@@ -659,7 +659,7 @@ export interface Track {
     key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
     duration?: number | null;
   };
-  sourceType: 'internal' | 'soundcloud' | 'youtube' | 'spotify' | 'beatport' | 'bandcamp';
+  sourceType?: ('internal' | 'soundcloud' | 'youtube' | 'spotify' | 'beatport' | 'bandcamp') | null;
   internalUpload?: (number | null) | Audio;
   trackLink?: string | null;
   embedTrack?: string | null;

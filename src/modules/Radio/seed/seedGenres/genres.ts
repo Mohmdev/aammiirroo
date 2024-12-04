@@ -7,7 +7,6 @@ export const genres = [
       'A high-energy subgenre of techno with relentless beats and driving rhythms, often played during peak hours.',
     Tracks: {
       docs: [1, 4, 6, 10], // Tracks: "Aurora", "Eclipse", "Stratosphere", "Momentum"
-      hasNextPage: false,
     },
   },
   {
@@ -18,7 +17,6 @@ export const genres = [
       'A subgenre characterized by emotive melodies layered over hypnotic beats and atmospheric soundscapes.',
     Tracks: {
       docs: [3, 9], // Tracks: "Afterlife", "Dreamstate"
-      hasNextPage: false,
     },
   },
   {
@@ -29,7 +27,6 @@ export const genres = [
       'A moody and intense subgenre of techno, often featuring darker tonalities and powerful, driving rhythms.',
     Tracks: {
       docs: [2, 8], // Tracks: "Neural Collapse", "Reverie"
-      hasNextPage: false,
     },
   },
   {
@@ -40,7 +37,6 @@ export const genres = [
       'A stripped-down, repetitive style of techno with hypnotic elements and a raw edge.',
     Tracks: {
       docs: [5], // Track: "Pulse"
-      hasNextPage: false,
     },
   },
   {
@@ -50,7 +46,6 @@ export const genres = [
     description: 'Live recorded techno sets showcasing extended mixes and unique performances.',
     Tracks: {
       docs: [7], // Track: "Genesis"
-      hasNextPage: false,
     },
   },
 ]

@@ -43,6 +43,7 @@ export const Genres: CollectionConfig = {
       type: 'join',
       collection: 'tracks',
       on: 'genres',
+      hasMany: true,
     },
     ...slugField(),
     {

@@ -3,8 +3,6 @@ import { fetchImageByURL } from '../fetchFile'
 import { artists } from './artists'
 
 export const seedArtists = async (payload: Payload): Promise<void> => {
-  payload.logger.info('Seeding artists...')
-
   for (const artist of artists) {
     try {
       // Check if artist already exists
@@ -36,6 +34,7 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
           collection: 'artists',
           data: {
             _status: 'published',
+            id: artist.id,
             title: artist.title,
             slug: artist.slug,
             photo: mediaDoc.id, // Reference the media doc ID
@@ -43,14 +42,12 @@ export const seedArtists = async (payload: Payload): Promise<void> => {
           },
         })
 
-        payload.logger.info(`Created artist "${artist.title}" with photo`)
+        // payload.logger.info(`Created artist "${artist.title}" with photo`)
       } else {
-        payload.logger.info(`Artist "${artist.title}" already exists, skipping...`)
+        payload.logger.info(`"Artist ${artist.title}" already exists, skipping...`)
       }
     } catch (error) {
       payload.logger.error(`Error seeding artist "${artist.title}":`, error)
     }
   }
-
-  payload.logger.info('Seeded artists successfully!')
 }

@@ -60,6 +60,7 @@ export const Artists: CollectionConfig = {
               type: 'join',
               collection: 'tracks',
               on: 'artist',
+              hasMany: true,
             },
           ],
         },
