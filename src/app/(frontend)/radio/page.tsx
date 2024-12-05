@@ -3,15 +3,14 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
 import PageClient from './page.client'
+import TrackCard from './TrackCard'
 
 import { Pagination } from '@/components/Pagination'
 import { PageRange } from '@/components/PageRange'
-import { CollectionArchive } from '@/components/CollectionArchive'
-import { Card } from '@/components/Card'
-import useClickableCard from '@/utilities/useClickableCard'
-import { cn } from '@/utilities/cn'
-import { Media } from '@/components/Media'
-import Link from 'next/link'
+// import useClickableCard from '@/utilities/useClickableCard'
+// import { cn } from '@/utilities/cn'
+// import { Media } from '@/components/Media'
+// import Link from 'next/link'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
@@ -45,20 +44,20 @@ export default async function Page() {
   })
 
   // Card
-  const { card, link } = useClickableCard({})
+  // const { card, link } = useClickableCard({})
   //
   // Data
   // Get genres from the first track or set to empty array
-  const genres = tracks.docs[0]?.genres || []
-  const hasGenres = genres && Array.isArray(genres) && genres.length > 0
+  // const genres = tracks.docs[0]?.genres || []
+  // const hasGenres = genres && Array.isArray(genres) && genres.length > 0
 
-  const trackTitle = tracks.docs[0]?.title || ''
+  // const trackTitle = tracks.docs[0]?.title || ''
 
-  const trackSlug = tracks.docs[0]?.slug || ''
-  const href = `/radio/${trackSlug}`
-  //
-  const trackDescription = tracks.docs[0]?.generalDetails?.description || ''
-  const sanitizedDescription = trackDescription?.replace(/\s/g, ' ') // replace non-breaking space with white space
+  // const trackSlug = tracks.docs[0]?.slug || ''
+  // const href = `/radio/${trackSlug}`
+  // //
+  // const trackDescription = tracks.docs[0]?.generalDetails?.description || ''
+  // const sanitizedDescription = trackDescription?.replace(/\s/g, ' ') // replace non-breaking space with white space
 
   return (
     <div className="pt-24 pb-24">
@@ -90,65 +89,11 @@ export default async function Page() {
               if (typeof result === 'object' && result !== null) {
                 return (
                   <div className="col-span-4" key={index}>
-                    {/* Track Card */}
-                    {/* <Card className="h-full" doc={result} relationTo="posts" showCategories /> */}
-                    <article
-                      className={cn(
-                        'border border-border rounded-md overflow-hidden bg-card hover:cursor-pointer',
-                        '',
-                      )}
-                      ref={card.ref}
-                    >
-                      <div className="relative w-full ">
-                        {!result?.image && <div className="">No image</div>}
-                        {result?.image && typeof result.image !== 'string' && (
-                          <Media resource={result.image} size="33vw" />
-                        )}
-                      </div>
-                      <div className="p-4">
-                        {hasGenres && (
-                          <div className="uppercase text-sm mb-4">
-                            {genres?.map((genre, index) => {
-                              if (typeof genre === 'object') {
-                                const { title: titleFromGenre } = genre
-
-                                const genreTitle = titleFromGenre || 'Untitled genre'
-
-                                const isLast = index === genres.length - 1
-
-                                return (
-                                  <Fragment key={index}>
-                                    {genreTitle}
-                                    {!isLast && <Fragment>, &nbsp;</Fragment>}
-                                  </Fragment>
-                                )
-                              }
-                              return null
-                            })}
-                          </div>
-                        )}
-                        {trackTitle && (
-                          <div className="prose">
-                            <h3>
-                              <Link className="not-prose" href={href} ref={link.ref}>
-                                {trackTitle}
-                              </Link>
-                            </h3>
-                          </div>
-                        )}
-                        {trackDescription && (
-                          <div className="mt-2">
-                            {trackDescription && <p>{sanitizedDescription}</p>}
-                          </div>
-                        )}
-                      </div>
-                    </article>
-
-                    {/* Track Card - END */}
+                    {/* Error on `track` */}
+                    <TrackCard track={result} />
                   </div>
                 )
               }
-
               return null
             })}
           </div>
