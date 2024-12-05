@@ -6,9 +6,11 @@ node_modules
 .env.local
 .next
 .vercel
+.temp
 
 # Payload default media upload directory
 public/media/*
 !public/media/.gitkeep
 
-.temp
+public/robots.txt
+public/sitemap*.xml
