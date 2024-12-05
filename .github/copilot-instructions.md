@@ -1,146 +1,15 @@
-# PayloadCMS Developer Instructions
+You are a dev who specializes in Payloadcms framework.
+There is a [seed script](/src/endpoints/seed/index.ts) available for this project. It is executed using a POST request to the `/api/seed` [endpoint](</src/app/(frontend)/next/seed/route.ts>).
 
-This guide is for developers focusing on content management development with PayloadCMS in this project. Before proceeding, review:
+This seed script populates a range of things such as Globals, Collections, etc. However, we want to learn how to create a new seed script for 3 other collections that are not currently defined in the seed script. The collections are [`Radio`](/src/modules/Content/Radio/Radio.ts), [`Artists`](/src/modules/Content/Radio/Artists.ts), and [`Genres`](/src/modules/Content/Radio/Genres.ts).
 
-1. [Technical Analysis](./technical-analysis.md) - Project overview and architecture
-2. [CMS Guide](./cms-guide.md) - Core CMS concepts and implementation with detailed examples and field configurations.
+You will be provided with sample data for each of these collections. Use the sample data for the new the seed script.
 
-## Development Workflow
+You dont need to over-complicate this task. You will be asked 1 collection at a time. Use the existing seed script as a reference to avoid mistakes. You will need to use the sample data provided to populate these collections.
 
-### 1. Collection Development
+We will make the script using 4 files:
 
-Create new collections in
-
-collections
-
-:
-
-```typescript
-// collections/CustomCollection.ts
-import { CollectionConfig } from 'payload'
-
-export const CustomCollection: CollectionConfig = {
-  slug: 'custom-collection',
-  admin: {
-    useAsTitle: 'title',
-    defaultColumns: ['title', 'status'],
-  },
-  access: {
-    read: () => true,
-    update: isAuthenticated,
-  },
-  versions: {
-    drafts: true,
-  },
-  fields: [
-    // Fields configuration
-  ],
-}
-```
-
-### 2. Field Configuration Priority
-
-When developing fields, implement in this order:
-
-1. Core content fields (required data)
-2. SEO metadata fields
-3. Media/relationship fields
-4. Layout builder blocks
-5. Custom admin UI components
-
-### 3. Layout Builder Development
-
-Add new blocks in
-
-blocks
-
-:
-
-```typescript
-// blocks/NewBlock/config.ts
-export const NewBlock: Block = {
-  slug: 'new-block',
-  fields: [
-    {
-      name: 'content',
-      type: 'richText',
-      required: true,
-    },
-  ],
-  // React component for admin preview
-  admin: {
-    components: {
-      Field: CustomFieldComponent,
-    },
-  },
-}
-```
-
-### 4. Admin UI Customization
-
-1. Custom field components in
-
-fields
-
-2. Admin components in `src/admin/components/`
-3. Dashboard modifications via `admin` config in `payload.config.ts`
-
-### 5. Access Control Implementation
-
-Follow the pattern:
-
-```typescript
-{
-  access: {
-    read: authenticatedOrPublished,
-    create: authenticated,
-    update: authenticated,
-    delete: isAdmin
-  }
-}
-```
-
-## Best Practices
-
-1. **Version Control**
-
-   - Keep collections in separate files
-   - Group related fields in field configs
-   - Document complex access patterns
-
-2. **Performance**
-
-   - Use `depth` parameter judiciously in relationships
-   - Implement proper indexing on searchable fields
-   - Configure appropriate image sizes in Media collection
-
-3. **Testing**
-
-   - Test access control thoroughly
-   - Verify hooks with different user roles
-   - Check relationship field constraints
-
-4. **Documentation**
-   - Document custom field types
-   - Maintain type definitions
-   - Comment complex access patterns
-
-## Development Commands
-
-```bash
-pnpm generate:types    # Update TypeScript types
-pnpm migrate:create    # Create new migration
-pnpm payload          # Access Payload CLI
-```
-
-## Key Files to Know
-
-```
-src/
-├── collections/       # Collection definitions
-├── blocks/           # Layout builder blocks
-├── fields/           # Reusable field configs
-├── access/           # Access control functions
-├── hooks/            # Collection hooks
-└── payload.config.ts # Main configuration
-```
+1. Create a file for the `Genres` collection.
+2. Create a file for the `Artists` collection.
+3. Create a file for the `Radio` collection.
+4. Create the main index script.

@@ -1,0 +1,10 @@
+.seedButton {
+  background: var(--theme-elevation-100);
+  padding: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--theme-elevation-200);
+  }
+}

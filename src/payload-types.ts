@@ -14,10 +14,14 @@ export interface Config {
     pages: Page;
     posts: Post;
     categories: Category;
-    users: User;
+    tracks: Track;
+    artists: Artist;
+    genres: Genre;
     media: Media;
     assets: Asset;
     audio: Audio;
+    users: User;
+    help: Help;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -26,15 +30,26 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    artists: {
+      Tracks: 'tracks';
+    };
+    genres: {
+      Tracks: 'tracks';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
-    users: UsersSelect<false> | UsersSelect<true>;
+    tracks: TracksSelect<false> | TracksSelect<true>;
+    artists: ArtistsSelect<false> | ArtistsSelect<true>;
+    genres: GenresSelect<false> | GenresSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     assets: AssetsSelect<false> | AssetsSelect<true>;
     audio: AudioSelect<false> | AudioSelect<true>;
+    users: UsersSelect<false> | UsersSelect<true>;
+    help: HelpSelect<false> | HelpSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -136,7 +151,7 @@ export interface Page {
     description?: string | null;
   };
   publishedAt?: string | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -409,7 +424,7 @@ export interface Post {
         name?: string | null;
       }[]
     | null;
-  slug?: string | null;
+  slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
   createdAt: string;
@@ -625,6 +640,111 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tracks".
+ */
+export interface Track {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
+  type?: ('track' | 'set') | null;
+  artist?: (number | Artist)[] | null;
+  genres?: (number | Genre)[] | null;
+  generalDetails?: {
+    recordLabel?: string | null;
+    releaseDate?: string | null;
+    description?: string | null;
+  };
+  properties?: {
+    bpm?: number | null;
+    key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
+    duration?: number | null;
+  };
+  sourceType?: ('internal' | 'soundcloud' | 'youtube' | 'spotify' | 'beatport' | 'bandcamp') | null;
+  internalUpload?: (number | null) | Audio;
+  trackLink?: string | null;
+  embedTrack?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists".
+ */
+export interface Artist {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
+  Tracks?: {
+    docs?: (number | Track)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  bio?: string | null;
+  SoundCloud?: string | null;
+  Beatport?: string | null;
+  Spotify?: string | null;
+  Bandcamp?: string | null;
+  YouTube?: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  website?: string | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
+export interface Genre {
+  id: number;
+  title: string;
+  description?: string | null;
+  Tracks?: {
+    docs?: (number | Track)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  slug: string;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio".
+ */
+export interface Audio {
+  id: number;
+  title: string;
+  artist: string;
+  duration?: string | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "assets".
  */
 export interface Asset {
@@ -646,29 +766,27 @@ export interface Asset {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio".
+ * via the `definition` "help".
  */
-export interface Audio {
+export interface Help {
   id: number;
-  title: string;
-  artist: string;
-  key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
-  description?: string | null;
-  duration?: string | null;
-  bpm?: number | null;
-  releaseDate?: string | null;
-  prefix?: string | null;
+  needHelp?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -758,8 +876,16 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
-        relationTo: 'users';
-        value: number | User;
+        relationTo: 'tracks';
+        value: number | Track;
+      } | null)
+    | ({
+        relationTo: 'artists';
+        value: number | Artist;
+      } | null)
+    | ({
+        relationTo: 'genres';
+        value: number | Genre;
       } | null)
     | ({
         relationTo: 'media';
@@ -772,6 +898,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'audio';
         value: number | Audio;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null)
+    | ({
+        relationTo: 'help';
+        value: number | Help;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1001,19 +1135,81 @@ export interface CategoriesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users_select".
+ * via the `definition` "tracks_select".
  */
-export interface UsersSelect<T extends boolean = true> {
-  name?: T;
+export interface TracksSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  type?: T;
+  artist?: T;
+  genres?: T;
+  generalDetails?:
+    | T
+    | {
+        recordLabel?: T;
+        releaseDate?: T;
+        description?: T;
+      };
+  properties?:
+    | T
+    | {
+        bpm?: T;
+        key?: T;
+        duration?: T;
+      };
+  sourceType?: T;
+  internalUpload?: T;
+  trackLink?: T;
+  embedTrack?: T;
+  slug?: T;
+  slugLock?: T;
   updatedAt?: T;
   createdAt?: T;
-  email?: T;
-  resetPasswordToken?: T;
-  resetPasswordExpiration?: T;
-  salt?: T;
-  hash?: T;
-  loginAttempts?: T;
-  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists_select".
+ */
+export interface ArtistsSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  Tracks?: T;
+  bio?: T;
+  SoundCloud?: T;
+  Beatport?: T;
+  Spotify?: T;
+  Bandcamp?: T;
+  YouTube?: T;
+  facebook?: T;
+  twitter?: T;
+  instagram?: T;
+  website?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+      };
+  slug?: T;
+  slugLock?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres_select".
+ */
+export interface GenresSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  Tracks?: T;
+  slug?: T;
+  slugLock?: T;
+  publishedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1126,11 +1322,7 @@ export interface AssetsSelect<T extends boolean = true> {
 export interface AudioSelect<T extends boolean = true> {
   title?: T;
   artist?: T;
-  key?: T;
-  description?: T;
   duration?: T;
-  bpm?: T;
-  releaseDate?: T;
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -1143,6 +1335,31 @@ export interface AudioSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users_select".
+ */
+export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "help_select".
+ */
+export interface HelpSelect<T extends boolean = true> {
+  needHelp?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

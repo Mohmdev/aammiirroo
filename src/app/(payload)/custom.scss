@@ -12,10 +12,10 @@
   // --style-radius-l: 16px;
   --nav-width: 224px;
 }
-.hamburger {
-  background-color: var(--theme-elevation-100);
-  border: 1px solid var(--theme-elevation-150);
-}
+// .hamburger {
+//   background-color: var(--theme-elevation-100);
+//   border: 1px solid var(--theme-elevation-150);
+// }
 /* Nav */
 // .nav {
 //   background-color: var(--theme-elevation-50);
@@ -43,7 +43,7 @@
   background-color: var(--theme-elevation-50);
 }
 
-// All nav-groups
+/* ---------------------------- // All nav-groups --------------------------- */
 .nav-group {
   .nav-group__toggle {
     .nav-group__label {
@@ -58,8 +58,9 @@
     margin-bottom: 0.5rem;
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
-// "Collections" nav-group
+/* ----------------------- // "Collections" nav-group ----------------------- */
 .nav-group {
   &.Collections {
     margin-top: 5%;
@@ -99,20 +100,22 @@
   }
 }
 
+/* --------------------------- Nav groups order -------------------------- */
 .nav__wrap {
   .nav-group {
     &.Collections {
       order: 1;
     }
-    &.Customize {
+    &.Radio {
       order: 2;
     }
-    &.Navigation {
+    &.Customize {
       order: 3;
     }
-    &.Storage,
-    &.Cloud.Storage {
-      // Handle both cases
+    &.Navigation {
+      order: 4;
+    }
+    &.Uploads {
       order: 20;
     }
     &.Settings {
@@ -124,8 +127,9 @@
     order: 99;
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
-// Dashboard home groups
+/* ------------------------ Dashboard groups order ------------------------ */
 .dashboard__wrap {
   .dashboard__group {
     // Collections
@@ -137,29 +141,35 @@
       }
     }
 
-    // Storage
+    // Radio
     &:nth-of-type(2) {
+      order: 2;
+    }
+
+    // Uploads
+    &:nth-of-type(3) {
       order: 20;
     }
 
     // Settings
-    &:nth-of-type(3) {
+    &:nth-of-type(4) {
       order: 30;
     }
 
     // Navigation
-    &:nth-of-type(4) {
+    &:nth-of-type(5) {
       order: 3;
     }
 
     // Customize
-    &:nth-of-type(5) {
-      order: 2;
+    &:nth-of-type(6) {
+      order: 4;
     }
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
-// Dashboard home cleanup
+/* ------------------------ Dashboard home cleanup ----------------------- */
 .template-default__wrap {
   --spacing-view: var(--gutter-h);
   --dashboard-gap: 50px;
@@ -175,7 +185,7 @@
     flex: 1;
 
     .dashboard__wrap {
-      padding-block: var(--spacing-view); // 16px
+      padding-block: calc(var(--spacing-view) / 2);
       gap: var(--dashboard-gap);
 
       @media (max-width: 768px) {
@@ -185,8 +195,16 @@
     }
   }
 }
+/* ----------------------------------- // ----------------------------------- */
 
-// Typography
+.doc-header {
+  @media (max-width: 1024px) {
+    padding-left: var(--gutter-h);
+    padding-right: var(--gutter-h);
+  }
+}
+
+/* ------------------------------ Typography ----------------------------- */
 .dashboard__wrap {
   .dashboard__group {
     .dashboard__label {
@@ -198,3 +216,67 @@
 .card__title {
   font-weight: 400;
 }
+
+.group-field__header {
+  margin-top: 32px;
+  * {
+    font-size: 15px;
+    font-weight: 400;
+  }
+}
+
+.tabs-field__content-wrap {
+  padding-left: var(--gutter-h);
+  padding-right: var(--gutter-h);
+  padding-top: calc(var(--gutter-h) / 2);
+}
+
+.tabs-field__tab-button {
+  letter-spacing: 0;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.doc-controls__value {
+  font-size: 16px;
+}
+/* ----------------------------------- // ----------------------------------- */
+
+/* ---------------- artists and tracks collections list view ---------------- */
+
+.collection-list table {
+  table-layout: auto;
+}
+
+.collection-list--artists .file__filename,
+.collection-list--artists #heading-image .sort-column .sort-column__buttons,
+.collection-list--tracks .file__filename,
+.collection-list--tracks #heading-image .sort-column .sort-column__buttons {
+  display: none;
+}
+
+.collection-list--artists .cell-image,
+.collection-list--artists #heading-image,
+.collection-list--tracks .cell-image,
+.collection-list--tracks #heading-image {
+  width: 80px;
+}
+
+.collection-list--artists .cell-_select,
+.collection-list--artists #heading-select,
+.collection-list--tracks .cell-_select,
+.collection-list--tracks #heading-select {
+  width: 60px;
+}
+
+.collection-list .table table .cell-_select {
+  display: table-cell;
+  width: 60px;
+}
+
+.table td,
+.table th {
+  vertical-align: middle;
+  min-width: 60px;
+}
+/* ----------------------------------- // ----------------------------------- */
