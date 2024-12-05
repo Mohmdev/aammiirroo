@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@payloadcms/db-postgres": "latest",
-    "@payloadcms/email-nodemailer": "latest",
     "@payloadcms/live-preview-react": "latest",
     "@payloadcms/payload-cloud": "latest",
     "@payloadcms/plugin-form-builder": "latest",
