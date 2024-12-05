@@ -35,6 +35,14 @@ export const Tracks: CollectionConfig = {
     description: true,
     source: true,
   },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+    },
+    maxPerDoc: 50,
+  },
   fields: [
     {
       name: 'title',
