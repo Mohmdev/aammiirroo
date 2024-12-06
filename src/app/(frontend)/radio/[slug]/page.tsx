@@ -1,20 +1,16 @@
 import type { Metadata } from 'next'
 
-// import { RelatedPosts } from '@/blocks/RelatedPosts/Component'
 import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
-// import RichText from '@/components/RichText'
-// import { Media as MediaComponent } from '@/components/Media'
 
 import type { Track } from '@/payload-types'
 
-// import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
-import TrackCard from '../components/TrackCard'
+import { TrackPage } from '../components/TrackPage'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
@@ -49,13 +45,6 @@ export default async function Track({ params: paramsPromise }: Args) {
 
   if (!track) return <PayloadRedirects url={url} />
 
-  // const { title, slug, image, genres, generalDetails } = track
-
-  // const hasGenres = genres && Array.isArray(genres) && genres.length > 0
-  // const href = `/radio/${slug}`
-  // const description = generalDetails?.description
-  // const sanitizedDescription = description?.replace(/\s/g, ' ')
-
   return (
     <article className="pt-16 pb-16">
       <PageClient />
@@ -67,15 +56,8 @@ export default async function Track({ params: paramsPromise }: Args) {
 
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
-          {/* <RichText className="max-w-[48rem] mx-auto" data={track.content} enableGutter={false} /> */}
-          {/* {post.relatedPosts && post.relatedPosts.length > 0 && (
-            <RelatedPosts
-              className="mt-12 max-w-[52rem] lg:grid lg:grid-cols-subgrid col-start-1 col-span-3 grid-rows-[2fr]"
-              docs={post.relatedPosts.filter((post) => typeof post === 'object')}
-            />
-          )} */}
           <p>This is a track page. And fuck you.</p>
-          <TrackCard track={track} />
+          <TrackPage track={track} />
         </div>
       </div>
     </article>

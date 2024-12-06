@@ -7,7 +7,7 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
-import TrackGrid from '../../components/TrackGrid'
+import { TrackGrid } from '../../components/TrackGrid'
 
 export const revalidate = 600
 

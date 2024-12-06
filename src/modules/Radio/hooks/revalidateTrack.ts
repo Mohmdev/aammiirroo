@@ -12,9 +12,10 @@ export const revalidateTrack: CollectionAfterChangeHook<Track> = ({
     if (doc._status === 'published') {
       const path = `/radio/${doc.slug}`
 
-      payload.logger.info(`Revalidating track at path: ${path}`)
+      payload.logger.info(`Revalidating track at path: /radio & ${path}`)
 
       revalidatePath(path)
+      revalidatePath('/radio') // Add archive path revalidation
       revalidateTag('radio-sitemap')
     }
 
@@ -22,9 +23,10 @@ export const revalidateTrack: CollectionAfterChangeHook<Track> = ({
     if (previousDoc._status === 'published' && doc._status !== 'published') {
       const oldPath = `/radio/${previousDoc.slug}`
 
-      payload.logger.info(`Revalidating old track at path: ${oldPath}`)
+      payload.logger.info(`Revalidating old track at path: /radio & ${oldPath}`)
 
       revalidatePath(oldPath)
+      revalidatePath('/radio') // Add archive path revalidation
       revalidateTag('radio-sitemap')
     }
   }
@@ -39,6 +41,7 @@ export const revalidateTrackDelete: CollectionAfterDeleteHook<Track> = ({
     const path = `/radio/${doc?.slug}`
 
     revalidatePath(path)
+    revalidatePath('/radio') // Add archive path revalidation
     revalidateTag('radio-sitemap')
   }
 
