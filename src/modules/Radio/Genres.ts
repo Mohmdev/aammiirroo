@@ -4,7 +4,7 @@ import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
 import { revalidateGenre } from './hooks/revalidateGenre'
 
-export const Genres: CollectionConfig = {
+export const Genres: CollectionConfig<'genres'> = {
   slug: 'genres',
   labels: {
     singular: 'Genre',

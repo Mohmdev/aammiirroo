@@ -1,9 +1,11 @@
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
+import { populateAuthors } from '@/hooks/populateAuthors'
 import type { CollectionConfig } from 'payload'
+import { revalidateTrack, revalidateTrackDelete } from './hooks/revalidateTrack'
 
-export const Tracks: CollectionConfig = {
+export const Tracks: CollectionConfig<'tracks'> = {
   slug: 'tracks',
   labels: {
     singular: 'Track',
@@ -26,14 +28,22 @@ export const Tracks: CollectionConfig = {
     type: true,
     artist: true,
     genres: true,
-    recordLabel: true,
-    bpm: true,
-    key: true,
-    duration: true,
     image: true,
-    releaseDate: true,
-    description: true,
-    source: true,
+    generalDetails: {
+      recordLabel: true,
+      releaseDate: true,
+      description: true,
+    },
+    properties: {
+      bpm: true,
+      key: true,
+      duration: true,
+    },
+  },
+  hooks: {
+    afterChange: [revalidateTrack],
+    afterRead: [populateAuthors],
+    afterDelete: [revalidateTrackDelete],
   },
   versions: {
     drafts: {
@@ -203,6 +213,59 @@ export const Tracks: CollectionConfig = {
               },
             },
           ],
+        },
+      ],
+    },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
+      },
+    },
+    {
+      name: 'authors',
+      type: 'relationship',
+      admin: {
+        position: 'sidebar',
+      },
+      hasMany: true,
+      relationTo: 'users',
+    },
+    // This field is only used to populate the user data via the `populateAuthors` hook
+    // This is because the `user` collection has access control locked to protect user privacy
+    {
+      name: 'populatedAuthors',
+      type: 'array',
+      access: {
+        update: () => false,
+      },
+      admin: {
+        disabled: true,
+        readOnly: true,
+      },
+      fields: [
+        {
+          name: 'id',
+          type: 'text',
+          hidden: true,
+        },
+        {
+          name: 'name',
+          type: 'text',
         },
       ],
     },

@@ -671,6 +671,14 @@ export interface Track {
   internalUpload?: (number | null) | Audio;
   trackLink?: string | null;
   embedTrack?: string | null;
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
   slug: string;
   slugLock?: boolean | null;
   updatedAt: string;
@@ -1170,6 +1178,14 @@ export interface TracksSelect<T extends boolean = true> {
   internalUpload?: T;
   trackLink?: T;
   embedTrack?: T;
+  publishedAt?: T;
+  authors?: T;
+  populatedAuthors?:
+    | T
+    | {
+        id?: T;
+        name?: T;
+      };
   slug?: T;
   slugLock?: T;
   updatedAt?: T;

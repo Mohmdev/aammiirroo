@@ -5,7 +5,7 @@ import { slugField } from '@/fields/slug'
 import { revalidateArtist } from './hooks/revalidateArtist'
 import { populateAuthors } from '../../hooks/populateAuthors'
 
-export const Artists: CollectionConfig = {
+export const Artists: CollectionConfig<'artists'> = {
   slug: 'artists',
   labels: {
     singular: 'Artist',
