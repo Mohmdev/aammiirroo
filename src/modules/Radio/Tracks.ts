@@ -4,17 +4,14 @@ import { slugField } from '@/fields/slug'
 import { populateAuthors } from '@/hooks/populateAuthors'
 import type { CollectionConfig } from 'payload'
 import { revalidateTrack, revalidateTrackDelete } from './hooks/revalidateTrack'
+import { getServerSideURL } from '@/utilities/getURL'
+import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 
 export const Tracks: CollectionConfig<'tracks'> = {
   slug: 'tracks',
   labels: {
     singular: 'Track',
     plural: 'Tracks',
-  },
-  admin: {
-    useAsTitle: 'title',
-    group: 'Radio',
-    defaultColumns: ['image', 'title', 'artist', 'genres', 'recordLabel', 'bpm', 'key', 'duration'],
   },
   access: {
     create: authenticated,
@@ -25,40 +22,35 @@ export const Tracks: CollectionConfig<'tracks'> = {
   defaultPopulate: {
     slug: true,
     title: true,
-    type: true,
-    artist: true,
-    genres: true,
-    image: true,
-    generalDetails: {
-      recordLabel: true,
-      releaseDate: true,
-      description: true,
-    },
-    properties: {
-      bpm: true,
-      key: true,
-      duration: true,
-    },
   },
-  hooks: {
-    afterChange: [revalidateTrack],
-    afterRead: [populateAuthors],
-    afterDelete: [revalidateTrackDelete],
-  },
-  versions: {
-    drafts: {
-      autosave: {
-        interval: 100, // We set this interval for optimal live preview
+  admin: {
+    useAsTitle: 'title',
+    group: 'Radio',
+    defaultColumns: ['image', 'title', 'artist', 'recordLabel', 'bpm', 'key', 'duration'],
+    preview: (data) => {
+      const path = generatePreviewPath({
+        slug: typeof data?.slug === 'string' ? data.slug : '',
+        collection: 'tracks',
+      })
+
+      return `${getServerSideURL()}${path}`
+    },
+    livePreview: {
+      url: ({ data }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'tracks',
+        })
+
+        return `${getServerSideURL()}${path}`
       },
     },
-    maxPerDoc: 50,
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      unique: true,
       index: true,
     },
     {
@@ -261,7 +253,6 @@ export const Tracks: CollectionConfig<'tracks'> = {
         {
           name: 'id',
           type: 'text',
-          hidden: true,
         },
         {
           name: 'name',
@@ -271,4 +262,17 @@ export const Tracks: CollectionConfig<'tracks'> = {
     },
     ...slugField(),
   ],
+  hooks: {
+    afterChange: [revalidateTrack],
+    afterRead: [populateAuthors],
+    afterDelete: [revalidateTrackDelete],
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+    },
+    maxPerDoc: 50,
+  },
 }

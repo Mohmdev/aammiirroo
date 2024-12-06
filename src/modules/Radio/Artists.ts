@@ -25,7 +25,6 @@ export const Artists: CollectionConfig<'artists'> = {
   defaultPopulate: {
     title: true,
     slug: true,
-    image: true,
   },
   versions: {
     drafts: {
@@ -69,7 +68,18 @@ export const Artists: CollectionConfig<'artists'> = {
           label: 'Meta',
           fields: [
             {
+              name: 'genres',
+              label: {
+                singular: 'Genre',
+                plural: 'Genres',
+              },
+              type: 'relationship',
+              relationTo: 'genres',
+              hasMany: true,
+            },
+            {
               name: 'bio',
+              label: 'Biography',
               type: 'textarea',
             },
             {

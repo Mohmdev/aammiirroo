@@ -17,26 +17,11 @@ export default async function Page() {
     collection: 'tracks',
     depth: 1,
     limit: 12,
-    overrideAccess: true /* needed here. */,
-    // pagination: false,
+    overrideAccess: false,
+    pagination: true,
     draft: false,
     select: {
-      title: true,
-      image: true,
       slug: true,
-      type: true,
-      sourceType: true,
-      genres: true,
-      artists: true,
-      properties: {
-        bpm: true,
-        duration: true,
-      },
-      generalDetails: {
-        description: true,
-        releaseDate: true,
-        recordLabel: true,
-      },
     },
   })
 

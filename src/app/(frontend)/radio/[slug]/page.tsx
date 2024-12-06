@@ -7,7 +7,7 @@ import { getPayload } from 'payload'
 import { draftMode } from 'next/headers'
 import React, { cache } from 'react'
 // import RichText from '@/components/RichText'
-import { Media as MediaComponent } from '@/components/Media'
+// import { Media as MediaComponent } from '@/components/Media'
 
 import type { Track } from '@/payload-types'
 
@@ -98,17 +98,12 @@ const queryTrackBySlug = cache(async ({ slug }: { slug: string }) => {
     collection: 'tracks',
     draft,
     limit: 1,
-    overrideAccess: true /* needed here. */,
+    overrideAccess: draft,
     pagination: false,
     where: {
       slug: {
         equals: slug,
       },
-    },
-    select: {
-      title: true,
-      slug: true,
-      // Add other required fields
     },
   })
 

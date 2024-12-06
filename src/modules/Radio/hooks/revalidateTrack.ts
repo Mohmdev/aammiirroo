@@ -15,17 +15,17 @@ export const revalidateTrack: CollectionAfterChangeHook<Track> = ({
       payload.logger.info(`Revalidating track at path: ${path}`)
 
       revalidatePath(path)
-      // revalidateTag('posts-sitemap')
+      revalidateTag('radio-sitemap')
     }
 
-    // If the post was previously published, we need to revalidate the old path
+    // If the track was previously published, we need to revalidate the old path
     if (previousDoc._status === 'published' && doc._status !== 'published') {
-      const oldPath = `/posts/${previousDoc.slug}`
+      const oldPath = `/radio/${previousDoc.slug}`
 
-      payload.logger.info(`Revalidating old post at path: ${oldPath}`)
+      payload.logger.info(`Revalidating old track at path: ${oldPath}`)
 
       revalidatePath(oldPath)
-      // revalidateTag('posts-sitemap')
+      revalidateTag('radio-sitemap')
     }
   }
   return doc
@@ -39,7 +39,7 @@ export const revalidateTrackDelete: CollectionAfterDeleteHook<Track> = ({
     const path = `/radio/${doc?.slug}`
 
     revalidatePath(path)
-    // revalidateTag('posts-sitemap')
+    revalidateTag('radio-sitemap')
   }
 
   return doc
