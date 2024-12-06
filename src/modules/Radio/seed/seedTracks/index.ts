@@ -50,6 +50,7 @@ export const seedTracks = async (payload: Payload): Promise<void> => {
         await payload.create({
           collection: 'tracks',
           data: {
+            _status: 'published',
             id: track.id,
             title: track.title,
             slug: track.slug,

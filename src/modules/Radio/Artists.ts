@@ -5,7 +5,7 @@ import { slugField } from '@/fields/slug'
 import { revalidateArtist } from './hooks/revalidateArtist'
 import { populateAuthors } from '../../hooks/populateAuthors'
 
-export const Artists: CollectionConfig = {
+export const Artists: CollectionConfig<'artists'> = {
   slug: 'artists',
   labels: {
     singular: 'Artist',
@@ -25,7 +25,6 @@ export const Artists: CollectionConfig = {
   defaultPopulate: {
     title: true,
     slug: true,
-    image: true,
   },
   versions: {
     drafts: {
@@ -69,7 +68,18 @@ export const Artists: CollectionConfig = {
           label: 'Meta',
           fields: [
             {
+              name: 'genres',
+              label: {
+                singular: 'Genre',
+                plural: 'Genres',
+              },
+              type: 'relationship',
+              relationTo: 'genres',
+              hasMany: true,
+            },
+            {
               name: 'bio',
+              label: 'Biography',
               type: 'textarea',
             },
             {

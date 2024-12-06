@@ -3,8 +3,9 @@ import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
 import { revalidateGenre } from './hooks/revalidateGenre'
+import { anyone } from '@/access/anyone'
 
-export const Genres: CollectionConfig = {
+export const Genres: CollectionConfig<'genres'> = {
   slug: 'genres',
   labels: {
     singular: 'Genre',
@@ -13,18 +14,17 @@ export const Genres: CollectionConfig = {
   access: {
     create: authenticated,
     delete: authenticated,
-    read: authenticatedOrPublished,
+    read: anyone,
     update: authenticated,
   },
   admin: {
     group: 'Radio',
     useAsTitle: 'title',
-    defaultColumns: ['title', 'Tracks', 'description', 'slug'],
+    defaultColumns: ['title', 'image', 'Artists', 'Tracks', 'description', 'slug'],
   },
   defaultPopulate: {
     title: true,
     slug: true,
-    description: true,
   },
   fields: [
     {
@@ -35,17 +35,56 @@ export const Genres: CollectionConfig = {
       index: true,
     },
     {
-      name: 'description',
-      type: 'textarea',
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
-      name: 'Tracks',
-      type: 'join',
-      collection: 'tracks',
-      on: 'genres',
-      hasMany: true,
+      type: 'tabs',
+      tabs: [
+        {
+          label: 'Tracks',
+          fields: [
+            {
+              name: 'tracks',
+              label: {
+                singular: 'Track',
+                plural: 'Tracks',
+              },
+              type: 'join',
+              collection: 'tracks',
+              on: 'genres',
+              hasMany: true,
+            },
+          ],
+        },
+        {
+          label: 'Artists',
+          fields: [
+            {
+              name: 'artists',
+              label: {
+                singular: 'Artist',
+                plural: 'Artists',
+              },
+              type: 'join',
+              collection: 'artists',
+              on: 'genres',
+              hasMany: true,
+            },
+          ],
+        },
+        {
+          label: 'Meta',
+          fields: [
+            {
+              name: 'description',
+              type: 'textarea',
+            },
+          ],
+        },
+      ],
     },
-    ...slugField(),
     {
       name: 'publishedAt',
       type: 'date',
@@ -66,6 +105,7 @@ export const Genres: CollectionConfig = {
         ],
       },
     },
+    ...slugField(),
   ],
   hooks: {
     afterChange: [revalidateGenre],

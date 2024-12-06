@@ -1,18 +1,17 @@
 import { authenticated } from '@/access/authenticated'
 import { authenticatedOrPublished } from '@/access/authenticatedOrPublished'
 import { slugField } from '@/fields/slug'
+import { populateAuthors } from '@/hooks/populateAuthors'
 import type { CollectionConfig } from 'payload'
+import { revalidateTrack, revalidateTrackDelete } from './hooks/revalidateTrack'
+import { getServerSideURL } from '@/utilities/getURL'
+import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 
-export const Tracks: CollectionConfig = {
+export const Tracks: CollectionConfig<'tracks'> = {
   slug: 'tracks',
   labels: {
     singular: 'Track',
     plural: 'Tracks',
-  },
-  admin: {
-    useAsTitle: 'title',
-    group: 'Radio',
-    defaultColumns: ['image', 'title', 'artist', 'genres', 'recordLabel', 'bpm', 'key', 'duration'],
   },
   access: {
     create: authenticated,
@@ -23,24 +22,35 @@ export const Tracks: CollectionConfig = {
   defaultPopulate: {
     slug: true,
     title: true,
-    type: true,
-    artist: true,
-    genres: true,
-    recordLabel: true,
-    bpm: true,
-    key: true,
-    duration: true,
-    image: true,
-    releaseDate: true,
-    description: true,
-    source: true,
+  },
+  admin: {
+    useAsTitle: 'title',
+    group: 'Radio',
+    defaultColumns: ['image', 'title', 'artist', 'recordLabel', 'bpm', 'key', 'duration'],
+    preview: (data) => {
+      const path = generatePreviewPath({
+        slug: typeof data?.slug === 'string' ? data.slug : '',
+        collection: 'tracks',
+      })
+
+      return `${getServerSideURL()}${path}`
+    },
+    livePreview: {
+      url: ({ data }) => {
+        const path = generatePreviewPath({
+          slug: typeof data?.slug === 'string' ? data.slug : '',
+          collection: 'tracks',
+        })
+
+        return `${getServerSideURL()}${path}`
+      },
+    },
   },
   fields: [
     {
       name: 'title',
       type: 'text',
       required: true,
-      unique: true,
       index: true,
     },
     {
@@ -198,6 +208,71 @@ export const Tracks: CollectionConfig = {
         },
       ],
     },
+    {
+      name: 'publishedAt',
+      type: 'date',
+      admin: {
+        date: {
+          pickerAppearance: 'dayAndTime',
+        },
+        position: 'sidebar',
+      },
+      hooks: {
+        beforeChange: [
+          ({ siblingData, value }) => {
+            if (siblingData._status === 'published' && !value) {
+              return new Date()
+            }
+            return value
+          },
+        ],
+      },
+    },
+    {
+      name: 'authors',
+      type: 'relationship',
+      admin: {
+        position: 'sidebar',
+      },
+      hasMany: true,
+      relationTo: 'users',
+    },
+    // This field is only used to populate the user data via the `populateAuthors` hook
+    // This is because the `user` collection has access control locked to protect user privacy
+    {
+      name: 'populatedAuthors',
+      type: 'array',
+      access: {
+        update: () => false,
+      },
+      admin: {
+        disabled: true,
+        readOnly: true,
+      },
+      fields: [
+        {
+          name: 'id',
+          type: 'text',
+        },
+        {
+          name: 'name',
+          type: 'text',
+        },
+      ],
+    },
     ...slugField(),
   ],
+  hooks: {
+    afterChange: [revalidateTrack],
+    afterRead: [populateAuthors],
+    afterDelete: [revalidateTrackDelete],
+  },
+  versions: {
+    drafts: {
+      autosave: {
+        interval: 100, // We set this interval for optimal live preview
+      },
+    },
+    maxPerDoc: 50,
+  },
 }
