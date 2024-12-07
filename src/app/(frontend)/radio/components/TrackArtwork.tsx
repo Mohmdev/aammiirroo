@@ -73,37 +73,27 @@ export const TrackArtwork = ({
   // const bpm = properties?.bpm
 
   return (
-    <article
-      ref={card.ref}
-      // className={cn(
-      //   'h-9 w-full',
-      //   'border border-border rounded-lg',
-      //   'overflow-hidden bg-card hover:cursor-pointer',
-      // )}
-      {...props}
-    >
+    <article ref={card.ref} {...props}>
       <ContextMenu>
         <ContextMenuTrigger>
-          <Link href={href} ref={link.ref}>
-            <div className="overflow-hidden rounded-md">
-              {!image && <div>No Artwork</div>}
-              {image && typeof image !== 'number' && (
-                <MediaComponent
-                  resource={image}
-                  size="33vw"
-                  className={cn(
-                    'h-auto w-auto object-cover transition-all hover:scale-105',
-                    aspectRatio === 'portrait' ? 'aspect-3/4' : 'aspect-square',
-                  )}
-                />
-              )}
-            </div>
+          <Link href={href} ref={link.ref} className="overflow-hidden rounded-md">
+            {!image && <div>No Artwork</div>}
+            {image && typeof image !== 'number' && (
+              <MediaComponent
+                resource={image}
+                // size="33vw"
+                width={width}
+                height={height}
+                className={cn(
+                  'h-auto w-auto object-cover transition-all hover:scale-105',
+                  aspectRatio === 'portrait' ? 'aspect-3/4' : 'aspect-square',
+                )}
+              />
+            )}
           </Link>
-          <div className="space-y-1 text-sm">
-            <Link href={href} ref={link.ref} className="not-prose">
-              {title && <h3 className="prose font-normal leading-none">{title}</h3>}
-            </Link>
-          </div>
+          <Link href={href} ref={link.ref} className="not-prose space-y-1 text-sm">
+            {title && <h3 className="prose font-normal leading-none">{title}</h3>}
+          </Link>
         </ContextMenuTrigger>
         <ContextMenuContent className="w-40">
           <ContextMenuItem>Add to Library</ContextMenuItem>

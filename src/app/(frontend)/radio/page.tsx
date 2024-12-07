@@ -53,15 +53,7 @@ export default async function Page() {
           <Separator className="my-4" />
           <div className="relative">
             <ScrollArea>
-              <div className="flex space-x-4 pb-4">
-                <TrackListingGrid
-                  tracks={tracks.docs}
-                  className="w-[250px]"
-                  aspectRatio="portrait"
-                  width={250}
-                  height={330}
-                />
-              </div>
+              <TrackListingGrid tracks={tracks.docs} className="" />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
@@ -76,7 +68,7 @@ export default async function Page() {
               <div className="flex space-x-4 pb-4">
                 <TrackListingGrid
                   tracks={tracks.docs}
-                  className="w-[250px]"
+                  className=""
                   aspectRatio="portrait"
                   width={250}
                   height={330}

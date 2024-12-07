@@ -21,18 +21,22 @@ export function TrackListingGrid({
 }: TrackListingGridProps) {
   return (
     <div className={cn('space-y-3', className)} {...props}>
-      <div className="flex space-x-4 pb-4">
-        {tracks?.map((track, index) => {
-          if (typeof track === 'object' && track !== null) {
-            return (
-              <div key={index}>
-                <TrackArtwork track={track} />
-              </div>
-            )
-          }
-          return null
-        })}
-      </div>
+      {tracks?.map((track, index) => {
+        if (typeof track === 'object' && track !== null) {
+          return (
+            <div key={index} className="w-max h-max">
+              <TrackArtwork
+                track={track}
+                width={width}
+                height={height}
+                aspectRatio="square"
+                className=""
+              />
+            </div>
+          )
+        }
+        return null
+      })}
     </div>
   )
 }
