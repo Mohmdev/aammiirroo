@@ -42,7 +42,7 @@ export default async function Page() {
           </div>
         </div>
         {/* Content */}
-        <TabsContent value="track" className="border-none p-0 outline-none">
+        <TabsContent value="track" className="border-none p-0 outline-hidden">
           {/* Row 1 - Normal listing */}
           <div className="flex items-center justify-between">
             <div className="space-y-1">

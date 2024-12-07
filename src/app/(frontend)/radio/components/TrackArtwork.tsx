@@ -93,7 +93,7 @@ export const TrackArtwork = ({
                   size="33vw"
                   className={cn(
                     'h-auto w-auto object-cover transition-all hover:scale-105',
-                    aspectRatio === 'portrait' ? 'aspect-[3/4]' : 'aspect-square',
+                    aspectRatio === 'portrait' ? 'aspect-3/4' : 'aspect-square',
                   )}
                 />
               )}
