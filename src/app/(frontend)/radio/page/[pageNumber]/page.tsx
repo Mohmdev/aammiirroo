@@ -56,7 +56,7 @@ export default async function Page({ params: paramsPromise }: Args) {
       <PageClient />
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1>Radio</h1>
+          <h1 className="heading-1">Radio</h1>
         </div>
       </div>
       <h4>Radio page content</h4>

@@ -38,12 +38,6 @@ export interface Config {
       tracks: 'tracks';
       artists: 'artists';
     };
-    media: {
-      'usedby.track': 'tracks';
-      'usedby.artist': 'artists';
-      'usedby.page': 'pages';
-      'usedby.post': 'posts';
-    };
   };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
@@ -144,7 +138,7 @@ export interface Page {
             } | null;
             url?: string | null;
             label: string;
-            appearance?: ('default' | 'outline') | null;
+            appearance?: ('default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link') | null;
           };
           id?: string | null;
         }[]
@@ -186,24 +180,6 @@ export interface Media {
     };
     [k: string]: unknown;
   } | null;
-  usedby?: {
-    track?: {
-      docs?: (number | Track)[] | null;
-      hasNextPage?: boolean | null;
-    } | null;
-    artist?: {
-      docs?: (number | Artist)[] | null;
-      hasNextPage?: boolean | null;
-    } | null;
-    page?: {
-      docs?: (number | Page)[] | null;
-      hasNextPage?: boolean | null;
-    } | null;
-    post?: {
-      docs?: (number | Post)[] | null;
-      hasNextPage?: boolean | null;
-    } | null;
-  };
   prefix?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -274,206 +250,6 @@ export interface Media {
       filename?: string | null;
     };
   };
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "tracks".
- */
-export interface Track {
-  id: number;
-  title: string;
-  image?: (number | null) | Media;
-  type?: ('track' | 'set') | null;
-  artist?: (number | Artist)[] | null;
-  genres?: (number | Genre)[] | null;
-  generalDetails?: {
-    recordLabel?: string | null;
-    releaseDate?: string | null;
-    description?: string | null;
-  };
-  properties?: {
-    bpm?: number | null;
-    key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
-    duration?: number | null;
-  };
-  sourceType?: ('internal' | 'soundcloud' | 'youtube' | 'spotify' | 'beatport' | 'bandcamp') | null;
-  internalUpload?: (number | null) | Audio;
-  trackLink?: string | null;
-  embedTrack?: string | null;
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug: string;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "artists".
- */
-export interface Artist {
-  id: number;
-  title: string;
-  image?: (number | null) | Media;
-  Tracks?: {
-    docs?: (number | Track)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  genres?: (number | Genre)[] | null;
-  bio?: string | null;
-  SoundCloud?: string | null;
-  Beatport?: string | null;
-  Spotify?: string | null;
-  Bandcamp?: string | null;
-  YouTube?: string | null;
-  facebook?: string | null;
-  twitter?: string | null;
-  instagram?: string | null;
-  website?: string | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug: string;
-  slugLock?: boolean | null;
-  publishedAt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "genres".
- */
-export interface Genre {
-  id: number;
-  title: string;
-  image?: (number | null) | Media;
-  tracks?: {
-    docs?: (number | Track)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  artists?: {
-    docs?: (number | Artist)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  description?: string | null;
-  publishedAt?: string | null;
-  slug: string;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "audio".
- */
-export interface Audio {
-  id: number;
-  title: string;
-  artist: string;
-  duration?: string | null;
-  prefix?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: number;
-  name?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "posts".
- */
-export interface Post {
-  id: number;
-  title: string;
-  content: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  };
-  relatedPosts?: (number | Post)[] | null;
-  categories?: (number | Category)[] | null;
-  meta?: {
-    title?: string | null;
-    image?: (number | null) | Media;
-    description?: string | null;
-  };
-  publishedAt?: string | null;
-  authors?: (number | User)[] | null;
-  populatedAuthors?:
-    | {
-        id?: string | null;
-        name?: string | null;
-      }[]
-    | null;
-  slug: string;
-  slugLock?: boolean | null;
-  updatedAt: string;
-  createdAt: string;
-  _status?: ('draft' | 'published') | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "categories".
- */
-export interface Category {
-  id: number;
-  title: string;
-  parent?: (number | null) | Category;
-  breadcrumbs?:
-    | {
-        doc?: (number | null) | Category;
-        url?: string | null;
-        label?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -548,7 +324,7 @@ export interface ContentBlock {
           } | null;
           url?: string | null;
           label: string;
-          appearance?: ('default' | 'outline') | null;
+          appearance?: ('default' | 'outline' | 'secondary' | 'destructive' | 'ghost' | 'link') | null;
         };
         id?: string | null;
       }[]
@@ -600,6 +376,86 @@ export interface ArchiveBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'archive';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  title: string;
+  parent?: (number | null) | Category;
+  breadcrumbs?:
+    | {
+        doc?: (number | null) | Category;
+        url?: string | null;
+        label?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "posts".
+ */
+export interface Post {
+  id: number;
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  relatedPosts?: (number | Post)[] | null;
+  categories?: (number | Category)[] | null;
+  meta?: {
+    title?: string | null;
+    image?: (number | null) | Media;
+    description?: string | null;
+  };
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: number;
+  name?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -790,6 +646,126 @@ export interface Form {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tracks".
+ */
+export interface Track {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
+  type?: ('track' | 'set') | null;
+  artist?: (number | Artist)[] | null;
+  genres?: (number | Genre)[] | null;
+  generalDetails?: {
+    recordLabel?: string | null;
+    releaseDate?: string | null;
+    description?: string | null;
+  };
+  properties?: {
+    bpm?: number | null;
+    key?: ('C' | 'C#' | 'D' | 'D#' | 'E' | 'F' | 'F#' | 'G' | 'G#' | 'A' | 'A#' | 'B') | null;
+    duration?: number | null;
+  };
+  sourceType?: ('internal' | 'soundcloud' | 'youtube' | 'spotify' | 'beatport' | 'bandcamp') | null;
+  internalUpload?: (number | null) | Audio;
+  trackLink?: string | null;
+  embedTrack?: string | null;
+  publishedAt?: string | null;
+  authors?: (number | User)[] | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "artists".
+ */
+export interface Artist {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
+  Tracks?: {
+    docs?: (number | Track)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  genres?: (number | Genre)[] | null;
+  bio?: string | null;
+  SoundCloud?: string | null;
+  Beatport?: string | null;
+  Spotify?: string | null;
+  Bandcamp?: string | null;
+  YouTube?: string | null;
+  facebook?: string | null;
+  twitter?: string | null;
+  instagram?: string | null;
+  website?: string | null;
+  populatedAuthors?:
+    | {
+        id?: string | null;
+        name?: string | null;
+      }[]
+    | null;
+  slug: string;
+  slugLock?: boolean | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "genres".
+ */
+export interface Genre {
+  id: number;
+  title: string;
+  image?: (number | null) | Media;
+  tracks?: {
+    docs?: (number | Track)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  artists?: {
+    docs?: (number | Artist)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  description?: string | null;
+  publishedAt?: string | null;
+  slug: string;
+  slugLock?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "audio".
+ */
+export interface Audio {
+  id: number;
+  title: string;
+  artist: string;
+  duration?: string | null;
+  prefix?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1291,14 +1267,6 @@ export interface GenresSelect<T extends boolean = true> {
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
-  usedby?:
-    | T
-    | {
-        track?: T;
-        artist?: T;
-        page?: T;
-        post?: T;
-      };
   prefix?: T;
   updatedAt?: T;
   createdAt?: T;

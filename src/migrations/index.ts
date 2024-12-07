@@ -2,6 +2,7 @@ import * as migration_20241205_140600_payload_v3_4_0 from './20241205_140600_pay
 import * as migration_20241205_154008_radio_status from './20241205_154008_radio_status';
 import * as migration_20241205_180213_radio_status_2 from './20241205_180213_radio_status_2';
 import * as migration_20241206_172737_radio_optimization_1 from './20241206_172737_radio_optimization_1';
+import * as migration_20241207_132648_link_field_new_appeareance_options from './20241207_132648_link_field_new_appeareance_options';
 
 export const migrations = [
   {
@@ -22,6 +23,11 @@ export const migrations = [
   {
     up: migration_20241206_172737_radio_optimization_1.up,
     down: migration_20241206_172737_radio_optimization_1.down,
-    name: '20241206_172737_radio_optimization_1'
+    name: '20241206_172737_radio_optimization_1',
+  },
+  {
+    up: migration_20241207_132648_link_field_new_appeareance_options.up,
+    down: migration_20241207_132648_link_field_new_appeareance_options.down,
+    name: '20241207_132648_link_field_new_appeareance_options'
   },
 ];
