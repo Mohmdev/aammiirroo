@@ -313,3 +313,14 @@ html[data-theme='light'] {
   font-weight: 500;
   line-height: 1.15;
 }
+
+@utility layout-wrapper {
+  display: grid;
+  grid-template-rows:
+    auto /* header */
+    1fr /* main */
+    auto; /* footer */
+}
+@utility min-h-fallback {
+  min-height: 100vh;
+}
