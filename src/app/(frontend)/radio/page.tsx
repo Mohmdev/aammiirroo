@@ -11,6 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/new-york/button'
 import { PlusCircle } from 'lucide-react'
 import { TracksGridArchive } from './components/TracksGridArchive'
+import { TrackArtwork } from './TrackArtwork'
 //
 
 export const dynamic = 'force-static'
@@ -41,7 +42,7 @@ export default async function Page() {
             </Button>
           </div>
         </div>
-        {/* Content */}
+        {/* --------------------------------- Content -------------------------------- */}
         <TabsContent value="track" className="border-none p-0 outline-hidden">
           {/* Row 1 - Normal listing */}
           <div className="flex items-center justify-between">
@@ -53,7 +54,13 @@ export default async function Page() {
           <Separator className="my-4" />
           <div className="relative">
             <ScrollArea>
-              <TracksGridArchive tracks={tracks.docs} className="" />
+              <div className="flex space-x-4 pb-4">
+                {tracks.docs.map((track) => (
+                  <>
+                    <TrackArtwork key={track.id} track={track} />
+                  </>
+                ))}
+              </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
