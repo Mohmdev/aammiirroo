@@ -10,7 +10,7 @@ import { ScrollArea, ScrollBar } from '@/components/ui/new-york/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/new-york/button'
 import { PlusCircle } from 'lucide-react'
-import { TrackListingGrid } from './components/TrackListingGrid'
+import { TracksGridArchive } from './components/TracksGridArchive'
 //
 
 export const dynamic = 'force-static'
@@ -53,7 +53,7 @@ export default async function Page() {
           <Separator className="my-4" />
           <div className="relative">
             <ScrollArea>
-              <TrackListingGrid tracks={tracks.docs} className="" />
+              <TracksGridArchive tracks={tracks.docs} className="" />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
@@ -65,15 +65,7 @@ export default async function Page() {
           <Separator className="my-4" />
           <div className="relative">
             <ScrollArea>
-              <div className="flex space-x-4 pb-4">
-                <TrackListingGrid
-                  tracks={tracks.docs}
-                  className=""
-                  aspectRatio="portrait"
-                  width={250}
-                  height={330}
-                />
-              </div>
+              <TracksGridArchive tracks={tracks.docs} className="" />
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
           </div>
@@ -124,7 +116,8 @@ const queryTracks = cache(async () => {
       title: true,
       slug: true,
       image: true,
-      artists: true,
+      artist: true,
+      genres: true,
     },
   })
 

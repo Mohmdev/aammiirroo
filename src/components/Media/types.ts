@@ -18,6 +18,7 @@ export interface MediaProps {
   src?: StaticImageData // for static media
   videoClassName?: string
   //
+  objectFit?: 'contain' | 'cover' | 'fill' | 'none' | 'scale-down' // for NextImage only
   size?: string // for NextImage only
   width?: number
   height?: number

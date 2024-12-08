@@ -24,6 +24,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
     size: sizeFromProps,
     src: srcFromProps,
     loading: loadingFromProps,
+    objectFit = 'cover',
   } = props
 
   let width: number | undefined
@@ -59,26 +60,27 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
   const [isLoading, setIsLoading] = useState(true)
 
   return (
-    <picture>
-      <NextImage
-        alt={alt || ''}
-        fill={fill}
-        placeholder="blur"
-        // blurDataURL={placeholderBlur}
-        blurDataURL={playButtonBgBlurred}
-        priority={priority}
-        quality={100}
-        loading={loading}
-        sizes={sizes}
-        src={src}
-        width={!fill ? width : undefined}
-        height={!fill ? height : undefined}
-        className={cn(
-          imgClassName,
-          isLoading && 'animate-pulse bg-gray-100', // Add pulse animation while loading
-        )}
-        onLoad={() => setIsLoading(false)}
-      />
-    </picture>
+    <NextImage
+      alt={alt || ''}
+      fill={fill}
+      placeholder="blur"
+      // blurDataURL={placeholderBlur}
+      blurDataURL={playButtonBgBlurred}
+      priority={priority}
+      quality={100}
+      loading={loading}
+      sizes={sizes}
+      src={src}
+      width={!fill ? width : undefined}
+      height={!fill ? height : undefined}
+      className={cn(
+        imgClassName,
+        isLoading && 'animate-pulse bg-gray-100', // Add pulse animation while loading
+      )}
+      style={{ objectFit }}
+      onLoad={() => setIsLoading(false)}
+    />
+    // <picture>
+    // </picture>
   )
 }
