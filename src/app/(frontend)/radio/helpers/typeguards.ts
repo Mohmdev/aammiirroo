@@ -5,5 +5,5 @@ export const isMediaObject = (img: Media | number | null | undefined): img is Me
 }
 
 export const isArtistObject = (artist: number | Artist): artist is Artist => {
-  return typeof artist !== 'number' && artist !== null && 'name' in artist
+  return typeof artist !== 'number' && artist !== null
 }

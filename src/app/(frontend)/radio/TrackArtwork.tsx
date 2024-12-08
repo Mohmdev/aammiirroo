@@ -12,7 +12,7 @@ interface TrackArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
     title?: string
     slug?: string
     image?: (number | null) | Media
-    artists?: (number | Artist)[] | null
+    artist?: (number | Artist)[] | null
     genres?: (number | Genre)[] | null
   }
   className?: string
@@ -32,7 +32,7 @@ export const TrackArtwork = ({
   const image = track?.image || null
   const title = track?.title || null
   const artistNames =
-    track?.artists
+    track?.artist
       ?.map((artist) => (isArtistObject(artist) ? artist.title : ''))
       .filter(Boolean)
       .join(', ') || null
@@ -48,10 +48,10 @@ export const TrackArtwork = ({
         {isMediaObject(image) && (
           <MediaComponent
             resource={image}
-            width={250}
-            height={330}
+            fill={true}
             className={cn(
-              'aspect-3/4', // portrait
+              'relative',
+              'aspect-9/10',
               'h-auto w-auto object-cover',
               'transition-all hover:scale-105',
             )}

@@ -10,7 +10,7 @@ import type { MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getClientSideURL } from '@/utilities/getURL'
-import { playButtonBgBlurred } from './base64'
+// import { playButtonBgBlurred } from './base64'
 
 const { breakpoints } = cssVariables
 
@@ -57,15 +57,15 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
-  const [isLoading, setIsLoading] = useState(true)
+  // const [isLoading, setIsLoading] = useState(true)
 
   return (
     <NextImage
       alt={alt || ''}
       fill={fill}
-      placeholder="blur"
+      // placeholder="blur"
       // blurDataURL={placeholderBlur}
-      blurDataURL={playButtonBgBlurred}
+      // blurDataURL={playButtonBgBlurred}
       priority={priority}
       quality={100}
       loading={loading}
@@ -75,10 +75,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       height={!fill ? height : undefined}
       className={cn(
         imgClassName,
-        isLoading && 'animate-pulse bg-gray-100', // Add pulse animation while loading
+        // isLoading && 'animate-pulse bg-gray-100', // Add pulse animation while loading
       )}
       style={{ objectFit }}
-      onLoad={() => setIsLoading(false)}
+      // onLoad={() => setIsLoading(false)}
     />
     // <picture>
     // </picture>
