@@ -8,27 +8,18 @@ import Link from 'next/link'
 import { Skeleton } from '@/components/ui/skeleton'
 
 interface TrackArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
-  track: Partial<Track> & {
-    title?: string
-    slug?: string
-    image?: (number | null) | Media
-    artist?: (number | Artist)[] | null
-    genres?: (number | Genre)[] | null
-  }
+  // track: Partial<Track> & {
+  //   title?: string
+  //   slug?: string
+  //   image?: (number | null) | Media
+  //   artist?: (number | Artist)[] | null
+  //   genres?: (number | Genre)[] | null
+  // }
+  track: Track
   className?: string
-  // aspectRatio?: 'portrait' | 'square'
-  // width?: number
-  // height?: number
 }
 
-export const TrackArtwork = ({
-  track,
-  className,
-  ...props
-  // aspectRatio = 'portrait',
-  // width,
-  // height,
-}: TrackArtworkProps) => {
+export const TrackArtwork = ({ track, className, ...props }: TrackArtworkProps) => {
   const image = track?.image || null
   const title = track?.title || null
   const artistNames =

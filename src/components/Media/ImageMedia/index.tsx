@@ -57,7 +57,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
-  // const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   return (
     <NextImage
@@ -75,10 +75,10 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       height={!fill ? height : undefined}
       className={cn(
         imgClassName,
-        // isLoading && 'animate-pulse bg-gray-100', // Add pulse animation while loading
+        isLoading && 'animate-pulse bg-gray-100 dark:bg-zinc-900', // Add pulse animation while loading
       )}
       style={{ objectFit }}
-      // onLoad={() => setIsLoading(false)}
+      onLoad={() => setIsLoading(false)}
     />
     // <picture>
     // </picture>
