@@ -75,6 +75,7 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
       height={!fill ? height : undefined}
       className={cn(
         imgClassName,
+        'transition-opacity duration-150 ease-in-out',
         isLoading && 'animate-pulse bg-gray-100 dark:bg-zinc-900', // Add pulse animation while loading
       )}
       style={{ objectFit }}

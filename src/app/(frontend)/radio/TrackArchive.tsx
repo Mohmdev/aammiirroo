@@ -13,15 +13,12 @@ export const TrackArchive = async ({ tracksPromise }) => {
   return (
     <Tabs defaultValue="track" className="h-full space-y-6">
       {/* Tabs list */}
-      <div className="space-between flex items-center">
+      <div className="flex justify-between items-center">
         <TabsList>
           <TabsTrigger value="track" className="relative">
             Track
           </TabsTrigger>
           <TabsTrigger value="Set">Set</TabsTrigger>
-          <TabsTrigger value="live" disabled>
-            Live (coming soon)
-          </TabsTrigger>
         </TabsList>
         <div className="ml-auto mr-4">
           <Button>
