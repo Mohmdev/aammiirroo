@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { Media as MediaComponent } from '@/components/Media'
+import { ContextMenuRadio } from './ContextMenuRadio'
 import { Music2Icon } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 
@@ -37,36 +38,36 @@ export const TrackCard = ({
   const selectedAspect = aspectRatios[aspectRatio]
 
   return (
-    <div className={cn('w-[250px] space-y-3', className)} {...props}>
+    <div className={cn('w-[250px] space-y-3 select-none', className)} {...props}>
       {/* Image */}
       <div className="overflow-hidden rounded-md">
-        <Link href={href}>
-          {!image && (
-            <div
-              className={cn(
-                selectedAspect,
-                'flex items-center justify-center',
-                'text-muted-foreground bg-gray-100 dark:bg-gray-800',
-                ' gap-2 flex-col',
-              )}
-            >
-              <Music2Icon />
-            </div>
-          )}
-          {isMediaObject(image) && (
-            <MediaComponent
-              resource={image}
-              fill={true}
-              size="33vw"
-              className={cn(
-                'relative',
-                selectedAspect,
-                'h-auto w-auto object-cover',
-                'transition-all hover:scale-105',
-              )}
-            />
-          )}
-        </Link>
+        <ContextMenuRadio>
+          <Link href={href}>
+            {!image && (
+              <div
+                className={cn(
+                  selectedAspect,
+                  'flex items-center justify-center text-muted-foreground bg-muted',
+                )}
+              >
+                <Music2Icon />
+              </div>
+            )}
+            {isMediaObject(image) && (
+              <MediaComponent
+                resource={image}
+                fill={true}
+                size="33vw"
+                className={cn(
+                  'relative',
+                  selectedAspect,
+                  'h-auto w-auto object-cover',
+                  'transition-transform hover:scale-105',
+                )}
+              />
+            )}
+          </Link>
+        </ContextMenuRadio>
       </div>
       {/* Info */}
       <div className="space-y-1 text-sm">
