@@ -1,17 +1,24 @@
 import React from 'react'
 import Link from 'next/link'
 import { Media as MediaComponent } from '@/components/Media'
-import { isArtistObject, isMediaObject } from '../typeGuards'
+import { Music2Icon } from 'lucide-react'
 import { cn } from '@/utilities/cn'
 
+import { isArtistObject, isMediaObject } from '../typeGuards'
 import type { Track } from '@/payload-types'
 
 interface TrackCardProps extends React.HTMLAttributes<HTMLDivElement> {
   track: Track
   className?: string
+  aspectRatio?: 'portrait' | 'square'
 }
 
-export const TrackCard = ({ track, className, ...props }: TrackCardProps) => {
+export const TrackCard = ({
+  track,
+  className,
+  aspectRatio = 'portrait',
+  ...props
+}: TrackCardProps) => {
   const image = track?.image || null
   const title = track?.title || null
   const artistNames =
@@ -23,30 +30,51 @@ export const TrackCard = ({ track, className, ...props }: TrackCardProps) => {
   const slug = track?.slug || null
   const href = `/radio/${slug}`
 
+  const aspectRatios = {
+    portrait: 'aspect-9/10',
+    square: 'aspect-square',
+  }
+  const selectedAspect = aspectRatios[aspectRatio]
+
   return (
     <div className={cn('w-[250px] space-y-3', className)} {...props}>
       {/* Image */}
       <div className="overflow-hidden rounded-md">
-        {!image && <div className="bg-gray-100 dark:bg-gray-800">No Artwork</div>}
-        {isMediaObject(image) && (
-          <MediaComponent
-            resource={image}
-            fill={true}
-            size="33vw"
-            className={cn(
-              'relative',
-              'aspect-9/10',
-              'h-auto w-auto object-cover',
-              'transition-all hover:scale-105',
-            )}
-          />
-        )}
+        <Link href={href}>
+          {!image && (
+            <div
+              className={cn(
+                selectedAspect,
+                'flex items-center justify-center',
+                'text-muted-foreground bg-gray-100 dark:bg-gray-800',
+                ' gap-2 flex-col',
+              )}
+            >
+              <Music2Icon />
+            </div>
+          )}
+          {isMediaObject(image) && (
+            <MediaComponent
+              resource={image}
+              fill={true}
+              size="33vw"
+              className={cn(
+                'relative',
+                selectedAspect,
+                'h-auto w-auto object-cover',
+                'transition-all hover:scale-105',
+              )}
+            />
+          )}
+        </Link>
       </div>
       {/* Info */}
       <div className="space-y-1 text-sm">
         <h4 className="font-medium leading-none">
-          {!title && <Link href={href}>Unknown Track</Link>}
-          {title && <Link href={href}>{title}</Link>}
+          <Link href={href}>
+            {!title && 'Unknown Track'}
+            {title && title}
+          </Link>
         </h4>
         <p className="text-xs text-muted-foreground">
           {!artistNames && 'Unknown Artist'}
