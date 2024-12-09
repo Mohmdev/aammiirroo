@@ -1,19 +1,18 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import PageClient from './page.client'
 import type { Metadata } from 'next/types'
-import { fetchTracks } from '@/utilities/api/tracks/fetchTracks'
-import { TrackArchive } from './components/TrackArchive'
+import { TracksArchive } from '../../../modules/Radio/templates/TracksArchive'
 
+// `force-static` prevents loading state
+// use `force-dynamic` to show loading state
 export const dynamic = 'force-static'
 export const revalidate = 600
 
 export default async function Page() {
-  const tracksPromise = await fetchTracks()
-
   return (
     <div className="container h-full">
       <PageClient />
-      <TrackArchive tracksPromise={tracksPromise} />
+      <TracksArchive />
     </div>
   )
 }

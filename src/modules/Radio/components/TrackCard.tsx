@@ -1,25 +1,17 @@
 import React from 'react'
-import { cn } from '@/utilities/cn'
-import { Media as MediaComponent } from '@/components/Media'
-
-import type { Artist, Genre, Media, Track } from '@/payload-types'
-import { isArtistObject, isMediaObject } from './helpers/typeguards'
 import Link from 'next/link'
-import { Skeleton } from '@/components/ui/skeleton'
+import { Media as MediaComponent } from '@/components/Media'
+import { isArtistObject, isMediaObject } from '../typeGuards'
+import { cn } from '@/utilities/cn'
 
-interface TrackArtworkProps extends React.HTMLAttributes<HTMLDivElement> {
-  // track: Partial<Track> & {
-  //   title?: string
-  //   slug?: string
-  //   image?: (number | null) | Media
-  //   artist?: (number | Artist)[] | null
-  //   genres?: (number | Genre)[] | null
-  // }
+import type { Track } from '@/payload-types'
+
+interface TrackCardProps extends React.HTMLAttributes<HTMLDivElement> {
   track: Track
   className?: string
 }
 
-export const TrackArtwork = ({ track, className, ...props }: TrackArtworkProps) => {
+export const TrackCard = ({ track, className, ...props }: TrackCardProps) => {
   const image = track?.image || null
   const title = track?.title || null
   const artistNames =
@@ -40,6 +32,7 @@ export const TrackArtwork = ({ track, className, ...props }: TrackArtworkProps) 
           <MediaComponent
             resource={image}
             fill={true}
+            size="33vw"
             className={cn(
               'relative',
               'aspect-9/10',
@@ -63,15 +56,3 @@ export const TrackArtwork = ({ track, className, ...props }: TrackArtworkProps) 
     </div>
   )
 }
-
-export const TrackArtworkSkeleton = () => (
-  <div className="w-[250px] space-y-3">
-    <div className="overflow-hidden rounded-md">
-      <Skeleton className="aspect-3/4 w-[250px]" />
-    </div>
-    <div className="space-y-1">
-      <Skeleton className="h-4 w-[150px]" />
-      <Skeleton className="h-4 w-[100px]" />
-    </div>
-  </div>
-)

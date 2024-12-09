@@ -10,6 +10,7 @@ import type { MediaProps } from '../types'
 
 import { cssVariables } from '@/cssVariables'
 import { getClientSideURL } from '@/utilities/getURL'
+import { Skeleton } from '@/components/ui/skeleton'
 // import { playButtonBgBlurred } from './base64'
 
 const { breakpoints } = cssVariables
@@ -57,30 +58,34 @@ export const ImageMedia: React.FC<MediaProps> = (props) => {
         .map(([, value]) => `(max-width: ${value}px) ${value * 2}w`)
         .join(', ')
 
-  // const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true)
 
   return (
-    <NextImage
-      alt={alt || ''}
-      fill={fill}
-      // placeholder="blur"
-      // blurDataURL={placeholderBlur}
-      // blurDataURL={playButtonBgBlurred}
-      priority={priority}
-      quality={100}
-      loading={loading}
-      sizes={sizes}
-      src={src}
-      width={!fill ? width : undefined}
-      height={!fill ? height : undefined}
-      className={cn(
-        imgClassName,
-        // isLoading && 'animate-pulse bg-gray-100 dark:bg-zinc-900', // Add pulse animation while loading
-      )}
-      style={{ objectFit }}
-      // onLoad={() => setIsLoading(false)}
-    />
-    // <picture>
-    // </picture>
+    <picture>
+      <NextImage
+        alt={alt || ''}
+        fill={fill}
+        // placeholder="blur"
+        // blurDataURL={placeholderBlur}
+        // blurDataURL={playButtonBgBlurred}
+        priority={priority}
+        quality={100}
+        loading={loading}
+        sizes={sizes}
+        src={src}
+        width={!fill ? width : undefined}
+        height={!fill ? height : undefined}
+        className={cn(
+          imgClassName,
+          'transition-opacity duration-300 ease-in-out',
+          isLoading
+            ? 'opacity-0' // Start fully transparent
+            : 'opacity-100', // Fade to fully visible
+        )}
+        style={{ objectFit }}
+        onLoad={() => setIsLoading(false)}
+      />
+      {isLoading && <Skeleton className="absolute inset-0" />}
+    </picture>
   )
 }

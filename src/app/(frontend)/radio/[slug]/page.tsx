@@ -10,7 +10,7 @@ import type { Track } from '@/payload-types'
 
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
-import { TrackPage } from '../components/TrackPage'
+import { TrackPage } from '../../../../modules/Radio/templates/TrackPage'
 
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })

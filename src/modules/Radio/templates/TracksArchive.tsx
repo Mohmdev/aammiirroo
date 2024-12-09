@@ -6,9 +6,9 @@ import { Separator } from '@/components/ui/separator'
 import { Button } from '@/components/ui/new-york/button'
 
 import { PlusCircle } from 'lucide-react'
-import { TrackList } from './TrackList'
+import { TracksList } from '../components/TracksList'
 
-export const TrackArchive = async ({ tracksPromise }) => {
+export const TracksArchive = async () => {
   return (
     <Tabs defaultValue="track" className="h-full space-y-6">
       {/* Tabs list */}
@@ -39,7 +39,7 @@ export const TrackArchive = async ({ tracksPromise }) => {
         <div className="relative">
           <ScrollArea>
             <div className="flex space-x-4 pb-4">
-              <TrackList tracksPromise={tracksPromise} />
+              <TracksList />
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
@@ -53,7 +53,7 @@ export const TrackArchive = async ({ tracksPromise }) => {
         <div className="relative">
           <ScrollArea>
             <div className="flex space-x-4 pb-4">
-              <TrackList tracksPromise={tracksPromise} />
+              <TracksList />
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
