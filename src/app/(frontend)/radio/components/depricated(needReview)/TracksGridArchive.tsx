@@ -1,3 +1,5 @@
+// Dont delete this. This can be a starting point of a basic grid archive.
+
 'use client'
 
 import React, { Fragment } from 'react'

@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/new-york/tabs'
 import { ScrollArea, ScrollBar } from '@/components/ui/new-york/scroll-area'
@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/new-york/button'
 
 import { PlusCircle } from 'lucide-react'
 import { TrackList } from './TrackList'
-import { TrackArtworkSkeleton } from './TrackArtwork'
 
 export const TrackArchive = async ({ tracksPromise }) => {
   return (
@@ -40,17 +39,7 @@ export const TrackArchive = async ({ tracksPromise }) => {
         <div className="relative">
           <ScrollArea>
             <div className="flex space-x-4 pb-4">
-              <Suspense
-                fallback={
-                  <div className="flex space-x-4 pb-4">
-                    {Array.from({ length: 8 }).map((_, i) => (
-                      <TrackArtworkSkeleton key={i} />
-                    ))}
-                  </div>
-                }
-              >
-                <TrackList tracksPromise={tracksPromise} />
-              </Suspense>
+              <TrackList tracksPromise={tracksPromise} />
             </div>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>

@@ -2,7 +2,7 @@ import React, { Suspense } from 'react'
 import PageClient from './page.client'
 import type { Metadata } from 'next/types'
 import { fetchTracks } from '@/utilities/api/tracks/fetchTracks'
-import { TrackArchive } from './TrackArchive'
+import { TrackArchive } from './components/TrackArchive'
 
 export const dynamic = 'force-static'
 export const revalidate = 600
