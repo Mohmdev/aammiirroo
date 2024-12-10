@@ -2,43 +2,58 @@
 
 import React, { Fragment } from 'react'
 import { Media as MediaComponent } from '@/components/Media'
+import type { Track } from '@/payload-types'
+import { isMediaObject } from '../typeGuards'
 import { cn } from '@/utilities/cn'
-import type { Media, Track, Genre, Artist } from '@/payload-types'
+import { Music2Icon } from 'lucide-react'
+import { formatDuration } from '@/utilities/formatDuration'
 
-interface TrackCardProps {
-  track: Partial<Track> & {
-    image?: Media | number | null
-    genres?: (Genre | number)[] | null
-    artists?: (Artist | number)[] | null
-  }
+interface Props {
+  track: Track
 }
 
-export const TrackPage: React.FC<TrackCardProps> = ({ track }) => {
-  const { title, image, genres, generalDetails, properties, artists } = track
+export const TrackPage: React.FC<Props> = ({ track }) => {
+  const { title, image, genres, generalDetails, properties, artist: artists } = track
+
+  const { description, recordLabel, releaseDate } = generalDetails || {}
+  const { duration, bpm, key } = properties || {}
+
+  const formattedDuration = duration ? formatDuration(duration) : '00:00'
 
   const hasArtists = artists && Array.isArray(artists) && artists.length > 0
   const hasGenres = genres && Array.isArray(genres) && genres.length > 0
 
-  const description = generalDetails?.description
-  const recordLabel = generalDetails?.recordLabel
-  const releaseDate = generalDetails?.releaseDate
-
-  const duration = properties?.duration
-  const bpm = properties?.bpm
-  const key = properties?.key
-
   return (
     <article className="flex flex-col gap-6 w-full">
-      <div className="grid grid-cols-2">
-        <div className="relative">
-          {!image && <div className="">No image</div>}
-          {image && typeof image !== 'number' && <MediaComponent resource={image} size="33vw" />}
+      {/* Row 1 */}
+      <div className="grid grid-cols-1 md:grid-cols-2">
+        <div className="overflow-hidden rounded-md">
+          {!image && (
+            <div className={cn('flex items-center justify-center text-muted-foreground bg-muted')}>
+              <Music2Icon />
+            </div>
+          )}
+          {isMediaObject(image) && (
+            <MediaComponent
+              resource={image}
+              fill={true}
+              size="33vw"
+              className={cn(
+                'relative',
+                'aspect-square',
+                'h-auto w-auto object-cover',
+                'transition-transform hover:scale-105',
+              )}
+            />
+          )}
         </div>
-        <div className="flex flex-col gap-4 items-start justify-start">
+        <div className="flex flex-col py-4 px-3 gap-4 items-start justify-start">
           <div className="flex flex-row flex-wrap gap-3 items-center justify-between">
             {bpm && <p className="prose">{bpm}</p>}
             {key && <p className="prose">{key}</p>}
-            {duration && <p className="prose">{duration}</p>}
+          </div>
+          <div className="flex flex-col gap-4 items-start justify-start">
+            <p className="prose">{formattedDuration}</p>
           </div>
           <div className="flex flex-row flex-wrap gap-3 items-center justify-between">
             {recordLabel && <p className="prose">{recordLabel}</p>}
@@ -46,6 +61,7 @@ export const TrackPage: React.FC<TrackCardProps> = ({ track }) => {
           </div>
         </div>
       </div>
+      {/* Row 2 */}
       <div>
         {title && (
           <div className="prose">
