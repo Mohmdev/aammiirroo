@@ -6,6 +6,7 @@ import type { CollectionConfig } from 'payload'
 import { revalidateTrack, revalidateTrackDelete } from './hooks/revalidateTrack'
 import { getServerSideURL } from '@/utilities/getURL'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
+import { controlledUploadField } from './fields/controlledUpload/controlledUploadField'
 
 export const Tracks: CollectionConfig<'tracks'> = {
   slug: 'tracks',
@@ -204,6 +205,7 @@ export const Tracks: CollectionConfig<'tracks'> = {
                 condition: (data) => data.sourceType !== 'internal',
               },
             },
+            ...controlledUploadField(),
           ],
         },
       ],
